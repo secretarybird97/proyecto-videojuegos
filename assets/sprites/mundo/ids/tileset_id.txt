@@ -1,0 +1,7 @@
+assets/sprites/mundo/atlas/morning_adventures_tileset_16x16.png
+3 3
+16 16
+10 6
+160 96
+0 1 2
+43 43 43 43 43 43 43 43 43 43

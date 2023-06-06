@@ -28,8 +28,8 @@ Plataformas::Plataformas(TileInfo tiles, bool colision) {
 
 void Plataformas::update(double dt) {
   // if Plataforma is out of screen delete it
-  printf("\n%d %d", posicion_mundo.x, posicion_mundo.y);
-  printf(" %d %d", posicion_camara.x, posicion_camara.y);
+  // printf("\n%f %f", posicion_mundo.x, posicion_mundo.y);
+  // printf(" %f %f", posicion_camara.x, posicion_camara.y);
   if (posicion_mundo.x < -100 || posicion_mundo.x > 1000) {
     this->~Plataformas();
   }

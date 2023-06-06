@@ -152,17 +152,31 @@ void SDLApp::on_fisicaupdate(double dt) {
     player->render_colbox = (player->render_colbox) ? false : true;
   }
 
-  for (auto &p : plataformas) {
-    p->update(dt);
-    if (p->get_colbox())
-      p->render_colbox = false;
-    if (p->get_colbox())
-      MotorFisico2D::get().diag_overlap(*player, *p);
-  }
-
   player->input_handle(KeyOyente::get(), MouseOyente::get());
+  bool pplat = false;
+  for (auto &p : objetos) {
+    p->update(dt);
+    /*if(!p->render_colbox && p->get_colbox())
+        p->render_colbox=true;*/
 
-  player->update(dt);
+    if (p != player && p->get_colbox()) {
+      MotorFisico2D::get().diag_overlap(*player, *p);
+      bool pc = MotorFisico2D::get().aabb_colision(*player->get_colbox(),
+                                                   *p->get_colbox());
+      player->en_colision |= pc;
+
+      if (p->area_plataforma) {
+        pplat |= MotorFisico2D::get().aabb_colision(*player->area_plataforma,
+                                                    *p->area_plataforma);
+        // printf("en plataforma [%d]\n",pplat);
+        if (pplat) {
+          MotorFisico2D::get().diag_overlap(*player, *p);
+          player->set_onPlataforma(pplat);
+          // player->en_colision=false;
+        }
+      }
+    }
+  }
 
   // SDLApp_AUX::update_mundo();
 

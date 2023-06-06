@@ -96,8 +96,8 @@ bool SDLApp::on_init() {
   platspawn->set_velocidad(5);
 
   // 08 tiles
-  // mapa = new Atlas("assets/sprites/mundo/ids/mundo_ids.txt");
-  // mapa->generar_mapa(get().render, 2, 0);
+  mapa = new Atlas("assets/sprites/mundo/ids/mundo_ids.txt");
+  mapa->generar_mapa(get().render, 2, 0);
   // 05
   player = new Jugador("assets/sprites/heroe/gato_sheet.png",
                        //      hp , x , y, sW,sH , vW,vH ,color
@@ -107,7 +107,7 @@ bool SDLApp::on_init() {
   player->set_velocidad(5);
   printf("Se creo el player\n");
 
-  // plataformas = mapa->get_objetos_fisicos();
+  plataformas = mapa->get_objetos_fisicos();
 
   PlataformasDinamicas *test =
       new PlataformasDinamicas("assets/sprites/mundo/bg/platform.png", 700, 670,
@@ -123,14 +123,12 @@ bool SDLApp::on_init() {
   ManejadorCamaras::get().set_estado(new EstadoCamaraTransicion());
 
   // 09 parallax
-  backgrounds.push_back(new Background(
-      "assets/sprites/backgrounds/layer1v.png", (int)(get().WIDTH / 2),
-      (int)(get().HEIGHT / 2), BG_WIDTH, BG_HEIGHT));
+  backgrounds.push_back(new Background("assets/sprites/backgrounds/layer1v.png",
+                                       0, 0, BG_WIDTH, BG_HEIGHT));
 
   // ESTRELLAS PEQUEÑAS
-  backgrounds.push_back(new Background(
-      "assets/sprites/backgrounds/layer2v.png", (int)(get().WIDTH / 2),
-      (int)(get().HEIGHT / 2), BG_WIDTH, BG_HEIGHT));
+  backgrounds.push_back(new Background("assets/sprites/backgrounds/layer2v.png",
+                                       0, 0, BG_WIDTH, BG_HEIGHT));
   for (auto bg : backgrounds) {
     get().ensamble->cargar_texturas(bg->get_sprite());
     objetos.push_back(bg);

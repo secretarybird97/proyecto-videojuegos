@@ -47,7 +47,7 @@ private:
   std::vector<Objeto *> objetos;
 
   // 08 tiles
-  std::vector<Atlas *> mapa;
+  Atlas *mapa;
 
   // 09 parallax
   std::vector<Background *> backgrounds;

@@ -65,10 +65,10 @@ Background::Background(std::string path_sprite, int x, int y, int w, int h)
 };
 
 void Background::update(double dt) {
-  // cambiar los valores de la condicion de acuerdo al tamaño del fondo
-  if (posicion_mundo.y >= 2280) {
-    this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
-  } else if (posicion_mundo.y <= -1560) {
-    this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
-  }
+  printf("x: %d, y: %d\n", posicion_camara.x, posicion_camara.y);
+  /*if (posicion_camara.y >= 2280) {
+    this->set_posicion_mundo({(int)(720 / 2), posicion_camara.x});
+  } else if (posicion_camara.y <= -1560) {
+    this->set_posicion_mundo({450, -82});
+  }*/
 };

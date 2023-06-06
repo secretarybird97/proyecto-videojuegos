@@ -1,13 +1,15 @@
 #include "Camaras.hpp"
 #include "../../objetos_dinamicos/ObjetoDinamico.hpp"
+#include "../../objetos_estaticos/ObjetoEstatico.hpp"
 #include "../../utilidad/Func_aux.hpp"
 #include <iostream>
+#include <typeinfo>
 
 Camara::Camara(int x, int y, int w, int h, SDL_Renderer &view) {
   // se considera que la camara empieza en 0,0 y es toda la pantalla
   // si se quiere centrar hay que desplazar w y h en todos los cálculos.
   escala = {200, 100};
-  offset_vertical = -190;
+  offset_vertical = -200;
 
   width = w;
   height = h;
@@ -73,8 +75,14 @@ void Camara::unluck_objeto() {
 };
 
 void Camara::proyectar(std::vector<Objeto *> objetos) {
-
   for (auto &o : objetos) {
+
+    /*if (typeid(*o) == typeid(Background)) {
+      Background *b = dynamic_cast<Background *>(o);
+      printf("x: %d, y: %d\n", b->get_posicion_camara().x,
+             b->get_posicion_camara().y);
+    }*/
+
     Coordenadas posM = o->get_posicion_mundo();
     posM.x -= pos_mundo.x;
     posM.y -= pos_mundo.y;

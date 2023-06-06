@@ -33,7 +33,7 @@ void PlataformasSpawner::spawn(std::vector<Objeto *> *lista) {
   int nh = sh+rand()%100;*/
 
   // x += (sw * 2);
-  y -= (sh * 4);
+  y -= (sh * 4 - 100);
 
   PlataformasDinamicas *nuevo =
       new PlataformasDinamicas(sprite_path, x, y, w, h, sw, sh, colordebug);

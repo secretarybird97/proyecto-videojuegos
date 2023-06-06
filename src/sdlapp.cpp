@@ -204,6 +204,9 @@ void SDLApp::on_fisicaupdate(double dt) {
         if (pplat) {
           MotorFisico2D::get().diag_overlap(*player, *p);
           player->set_onPlataforma(pplat);
+
+          // poner coordenada exacta en plataforma del jugador en y
+
           // player->en_colision=false;
         }
       }
@@ -217,6 +220,11 @@ void SDLApp::on_fisicaupdate(double dt) {
   ManejadorCamaras::get().input_handle(KeyOyente::get(), MouseOyente::get());
   ManejadorCamaras::get().update(objetos);
   // printf("update_fisica3\n");
+
+  /*if(muerto)
+  {
+    get().on_limpiar8();\\
+  }*/
 };
 
 void SDLApp::on_frameupdate(double dt) {

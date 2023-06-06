@@ -6,8 +6,8 @@
 #include <iostream>
 
 MotorFisico2D *MotorFisico2D::instancia = 0;
-// float MotorFisico2D::gforce = .15f;
-float MotorFisico2D::gforce = .20f;
+float MotorFisico2D::gforce = .15f;
+// float MotorFisico2D::gforce = .20f;
 
 MotorFisico2D &MotorFisico2D::get() {
   if (!instancia)
@@ -222,7 +222,7 @@ void MotorFisico2D::gravedad(std::vector<ObjetoDinamico *> objs) {
       continue;
     int cy = o->get_posy();
     // if(o->get_dtgf()!=0)
-    if (o->get_dtgf() <= 5) // cap, decia 5 VELOCIDAD DE CAIDA !!
+    if (o->get_dtgf() <= 70) // cap, decia 5 VELOCIDAD DE CAIDA !!
       o->set_dtgf(o->get_dtgf() + get().gforce);
     int y = cy + o->get_dtgf();
     o->set_posy(y);

@@ -94,7 +94,7 @@ void Jugador::update(double dt) {
 
   // reset
 
-  if (en_plataforma) {
+  if (en_plataforma || posicion_mundo.y >= 800) {
     set_dtgf(0);
   }
   set_onPlataforma(false);

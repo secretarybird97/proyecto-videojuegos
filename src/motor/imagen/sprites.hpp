@@ -20,6 +20,9 @@ public:
   void play_frame(int row, int frame);
   void set_estado_animacion(void *estado);
 
+  void set_flip(bool v) { flip = v; };
+  bool get_flip() const { return flip; };
+
 private:
   SDL_Rect sprite_select;
   SDL_Rect sprite_frame;
@@ -30,4 +33,5 @@ private:
   void *estado_animacion;
   int max_frames;
   Coordenadas sprite_size;
+  bool flip{false};
 };

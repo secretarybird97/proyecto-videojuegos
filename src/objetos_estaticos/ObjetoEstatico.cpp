@@ -48,3 +48,27 @@ void Plataformas::update(double dt) {
     area_plataforma->update_vertices();
   }
 };
+
+Background::Background(std::string path_sprite, int x, int y, int w, int h)
+    : ObjetoEstatico{} {
+  posicion_mundo.x = x;
+  posicion_mundo.y = y;
+  avatar = new Rectangulo(x, y, w, h, color);
+  avatar->set_rellenocolor(color);
+  avatar->set_serellena(false);
+  col_box = nullptr;
+  sprite = new Sprite(path_sprite, posicion_mundo, w, h, w, h);
+  tiene_fisica = false;
+  en_colision = false;
+  tile = nullptr;
+  velocidad = 2; // modificar variable para cambiar velocidad de fondo
+};
+
+void Background::update(double dt) {
+  // cambiar los valores de la condicion de acuerdo al tamaño del fondo
+  if (posicion_mundo.y >= 2280) {
+    this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
+  } else if (posicion_mundo.y <= -1560) {
+    this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
+  }
+};

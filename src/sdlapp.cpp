@@ -9,6 +9,7 @@
 #include "utilidad/RenderTexto.hpp"
 #include "utilidad/Tiempo.hpp"
 #include <SDL_ttf.h>
+#include <algorithm>
 #include <iostream>
 #include <math.h>
 
@@ -95,17 +96,18 @@ bool SDLApp::on_init() {
   platspawn->set_velocidad(5);
 
   // 08 tiles
-  mapa = new Atlas("assets/sprites/mundo/ids/mundo_ids.txt");
-  mapa->generar_mapa(get().render, 2, 0);
+  // mapa = new Atlas("assets/sprites/mundo/ids/mundo_ids.txt");
+  // mapa->generar_mapa(get().render, 2, 0);
   // 05
   player = new Jugador("assets/sprites/heroe/gato_sheet.png",
                        //      hp , x , y, sW,sH , vW,vH ,color
-                       100, 10, 700, 500, 520, 100, 100, {255, 0, 255, 255});
+                       100, (int)(get().WIDTH / 2), (int)(get().HEIGHT), 500,
+                       520, 100, 100, {255, 0, 255, 255});
   get().ensamble->cargar_texturas(player->get_sprite());
   player->set_velocidad(5);
   printf("Se creo el player\n");
 
-  plataformas = mapa->get_objetos_fisicos();
+  // plataformas = mapa->get_objetos_fisicos();
 
   PlataformasDinamicas *test =
       new PlataformasDinamicas("assets/sprites/mundo/bg/pared_sprite.png", 700,
@@ -121,12 +123,18 @@ bool SDLApp::on_init() {
   ManejadorCamaras::get().set_estado(new EstadoCamaraTransicion());
 
   // 09 parallax
-  background =
-      new BackGroundDinamico("assets/sprites/mundo/bg/bg1.png", 2048, 1024);
-  background->set_velocidad(3);
-  get().ensamble->cargar_texturas(background->get_sprite());
+  backgrounds.push_back(new Background(
+      "assets/sprites/backgrounds/layer1v.png", (int)(get().WIDTH / 2),
+      (int)(get().HEIGHT / 2), BG_WIDTH, BG_HEIGHT));
 
-  objetos.push_back(background);
+  // ESTRELLAS PEQUEÑAS
+  backgrounds.push_back(new Background(
+      "assets/sprites/backgrounds/layer2v.png", (int)(get().WIDTH / 2),
+      (int)(get().HEIGHT / 2), BG_WIDTH, BG_HEIGHT));
+  for (auto bg : backgrounds) {
+    get().ensamble->cargar_texturas(bg->get_sprite());
+    objetos.push_back(bg);
+  }
 
   for (int i = 0; i < plataformas.size(); i++) {
     // agregar todos los objetos en una lista para la camara
@@ -171,7 +179,7 @@ void SDLApp::on_fisicaupdate(double dt) {
 
   player->input_handle(KeyOyente::get(), MouseOyente::get());
   platspawn->update(&objetos);
-  printf("update_fisica1\n");
+  // printf("update_fisica1\n");
   bool pplat = false;
   for (auto &p : objetos) {
     p->update(dt);
@@ -196,14 +204,14 @@ void SDLApp::on_fisicaupdate(double dt) {
       }
     }
   }
-  printf("update_fisica2\n");
+  //  printf("update_fisica2\n");
 #ifdef GRAVEDAD
   MotorFisico2D::get().gravedad({player});
 #endif
   /*CAMARA al final para actualizar la proyeción de los objetos*/
   ManejadorCamaras::get().input_handle(KeyOyente::get(), MouseOyente::get());
   ManejadorCamaras::get().update(objetos);
-  printf("update_fisica3\n");
+  // printf("update_fisica3\n");
 };
 
 void SDLApp::on_frameupdate(double dt) {
@@ -214,7 +222,7 @@ void SDLApp::on_frameupdate(double dt) {
   ManejadorCamaras::get().renderizar(objetos);
   camara_principal->render_cross();
 
-  printf("update_frame\n");
+  // printf("update_frame\n");
 
   Coordenadas pm = player->get_posicion_mundo();
   Coordenadas pc = player->get_posicion_camara();

@@ -47,10 +47,10 @@ private:
   std::vector<Objeto *> objetos;
 
   // 08 tiles
-  Atlas *mapa;
+  std::vector<Atlas *> mapa;
 
   // 09 parallax
-  BackGroundDinamico *background;
+  std::vector<Background *> backgrounds;
 
   std::vector<ObjetoDinamico *> plataformadinamicas;
 
@@ -62,4 +62,8 @@ public:
   static void set_bgcolor(Uint8 rojo, Uint8 verde, Uint8 azul);
   static SDLApp &get();
   static bool estaCorriendo() { return get().esta_corriendo; };
+  static const int BG_WIDTH = 1080;
+  static const int BG_HEIGHT = 17280;
+  static const int SCALE = 3;
+  friend class SDLApp_AUX; // Clase auxiliar
 };

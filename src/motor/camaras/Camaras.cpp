@@ -6,6 +6,9 @@
 Camara::Camara(int x, int y, int w, int h, SDL_Renderer &view) {
   // se considera que la camara empieza en 0,0 y es toda la pantalla
   // si se quiere centrar hay que desplazar w y h en todos los cálculos.
+  escala = {200, 100};
+  offset_vertical = -190;
+
   width = w;
   height = h;
   pos_mundo = {x, y};
@@ -16,17 +19,25 @@ Camara::Camara(int x, int y, int w, int h, SDL_Renderer &view) {
   cruz.push_back({pos_centro.x + (w / 4), y});
   cruz.push_back({pos_centro.x + (w / 4), y + h});
 
-  limder.push_back({pos_centro.x + (w / 4), 300});
-  limder.push_back({pos_centro.x + (w / 4), 600});
+  limder.push_back(
+      {pos_centro.x + (w / 4) + escala.x, 350 - escala.y + offset_vertical});
+  limder.push_back(
+      {pos_centro.x + (w / 4) + escala.x, 550 + escala.y + offset_vertical});
 
-  limizq.push_back({pos_centro.x - (w / 4), 300});
-  limizq.push_back({pos_centro.x - (w / 4), 600});
+  limizq.push_back(
+      {pos_centro.x - (w / 4) - escala.x, 350 - escala.y + offset_vertical});
+  limizq.push_back(
+      {pos_centro.x - (w / 4) - escala.x, 550 + escala.y + offset_vertical});
 
-  limsup.push_back({pos_centro.x - (w / 4), 350});
-  limsup.push_back({pos_centro.x + (w / 4), 350});
+  limsup.push_back(
+      {pos_centro.x - (w / 4) - escala.x, 350 - escala.y + offset_vertical});
+  limsup.push_back(
+      {pos_centro.x + (w / 4) + escala.x, 350 - escala.y + offset_vertical});
 
-  liminf.push_back({pos_centro.x - (w / 4), 550});
-  liminf.push_back({pos_centro.x + (w / 4), 550});
+  liminf.push_back(
+      {pos_centro.x - (w / 4) - escala.x, 550 + escala.y + offset_vertical});
+  liminf.push_back(
+      {pos_centro.x + (w / 4) + escala.x, 550 + escala.y + offset_vertical});
 
   viewport = &view;
   objensamble = new Pipeline(view);
@@ -102,27 +113,23 @@ void Camara::update() {
     estado_actual->on_update(*this);
 
   FSMCamara *e = (FSMCamara *)get_estado();
-  if (objeto_seguir->get_centro().x < (pos_centro.x / 2)) {
+  if (objeto_seguir->get_centro().x < (pos_centro.x / 2) - escala.x) {
     if (e->strestado != "transicion")
       set_estado(new EstadoCamaraTransicion());
   }
 
-  if (objeto_seguir->get_centro().x > pos_centro.x + (pos_centro.x / 2)) {
+  if (objeto_seguir->get_centro().x >
+      pos_centro.x + (pos_centro.x / 2) + escala.x) {
     if (e->strestado != "transicion")
       set_estado(new EstadoCamaraTransicion());
   }
 
-  if (objeto_seguir->get_centro().x < (pos_centro.x / 2)) {
+  if (objeto_seguir->get_centro().y > 550 + escala.y + offset_vertical) {
     if (e->strestado != "transicion")
       set_estado(new EstadoCamaraTransicion());
   }
 
-  if (objeto_seguir->get_centro().y > 550) {
-    if (e->strestado != "transicion")
-      set_estado(new EstadoCamaraTransicion());
-  }
-
-  if (objeto_seguir->get_centro().y < 350) {
+  if (objeto_seguir->get_centro().y < 350 - escala.y + offset_vertical) {
     if (e->strestado != "transicion")
       set_estado(new EstadoCamaraTransicion());
   }

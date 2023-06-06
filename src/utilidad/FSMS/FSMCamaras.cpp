@@ -76,13 +76,13 @@ void EstadoCamaraMoverDer::on_update(Camara &cam) {
     // pos.x += obj->get_velocidad();
     obpos.x += obj->get_velocidad();
   }
-  for (auto &o : obj->get_objetos_mundo()) {
+  /*for (auto &o : obj->get_objetos_mundo()) {
     if (o == obj) // si el elemnto es igual al player omitir
       continue;
     Coordenadas po = o->get_posicion_mundo();
     po.x -= o->get_velocidad();
     o->set_posicion_mundo(po);
-  }
+  }*/
 
   // cam.set_posicion_mundo(pos);//mover la cámara con jugador
   obj->set_posicion_mundo(obpos);
@@ -126,13 +126,13 @@ void EstadoCamaraMoverIzq::on_update(Camara &cam) {
     obpos.x -= obj->get_velocidad();
   }
 
-  for (auto &o : obj->get_objetos_mundo()) {
+  /*for (auto &o : obj->get_objetos_mundo()) {
     if (o == obj) // si el elemnto es igual al player omitir
       continue;
     Coordenadas po = o->get_posicion_mundo();
     po.x += o->get_velocidad();
     o->set_posicion_mundo(po);
-  }
+  }*/
 
   // cam.set_posicion_mundo(pos); //mover la cámara con jugador
   obj->set_posicion_mundo(obpos);

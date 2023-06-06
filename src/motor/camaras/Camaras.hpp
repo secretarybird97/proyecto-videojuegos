@@ -43,6 +43,8 @@ public:
 private:
   int width;
   int height;
+  Coordenadas escala;
+  int offset_vertical;
   Coordenadas pos_mundo;
   Coordenadas pos_centro;
   SDL_Renderer *viewport;

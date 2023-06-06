@@ -89,8 +89,8 @@ bool SDLApp::on_init() {
 
   ManejadorCamaras::get().set_camara(*get().camara_principal);
 
-  platspawn = new PlataformasSpawner("assets/sprites/mundo/bg/pared_sprite.png",
-                                     1024, 670, 216, 72, 100, 72,
+  platspawn = new PlataformasSpawner("assets/sprites/mundo/bg/platform.png",
+                                     1024, 670, 48, 16, 216, 72,
                                      {0, 255, 0, 255}, *get().ensamble);
 
   platspawn->set_velocidad(5);
@@ -110,8 +110,8 @@ bool SDLApp::on_init() {
   // plataformas = mapa->get_objetos_fisicos();
 
   PlataformasDinamicas *test =
-      new PlataformasDinamicas("assets/sprites/mundo/bg/pared_sprite.png", 700,
-                               670, 216, 72, 100, 72, {0, 255, 0, 255});
+      new PlataformasDinamicas("assets/sprites/mundo/bg/platform.png", 700, 670,
+                               48, 16, 216, 72, {0, 255, 0, 255});
 
   test->set_velocidad(5);
   get().ensamble->cargar_texturas(test->get_sprite());
@@ -137,7 +137,6 @@ bool SDLApp::on_init() {
   }
 
   for (int i = 0; i < plataformas.size(); i++) {
-    // agregar todos los objetos en una lista para la camara
     plataformas[i]->set_velocidad(5);
     objetos.push_back(plataformas[i]);
   }

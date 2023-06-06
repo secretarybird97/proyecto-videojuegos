@@ -14,7 +14,7 @@ CFLAGSDEBUG = -std=c++17 -g -I"$(LIBRERIAS_PATH)/include"
 # banderas del linker y la librerias
 LDFLAGS = -L"$(LIBRERIAS_PATH)\lib" -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -mconsole -lm
 #con pkg-conig -> `pkg-config --static --libs --cflags sdl2 SDL2_ttf SDL2_image`
-MACROS = #-D GRAVEDAD
+MACROS = -D GRAVEDAD
 
 # nombre del programa
 TARGET = main.exe
@@ -53,7 +53,7 @@ $(CPP_OBJ_NOMAIN): $(BUILD)/src/%.o : $(SRC)/%.cpp $(CPP_HEADERS)
 	$(COMPILADOR) $(CFLAGS) $(MACROS) $< -c -o $(subst /,\,$@) 
 
 debug: $(CPP_SOURCE) $(CPP_HEADERS)
-	$(COMPILADOR) $(CFLAGSDEBUG) -o $(TARGET) $(CPP_SOURCE) $(LDFLAGS)
+	$(COMPILADOR) $(CFLAGSDEBUG) $(MACROS) -o $(TARGET) $(CPP_SOURCE) $(LDFLAGS)
 
 correr:
 	@echo "EJECUTANDO PROGRAMA"

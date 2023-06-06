@@ -335,9 +335,9 @@ FSMJugador *EstadoJugadorGravedadBrinco::input_handle(KeyOyente &input,
     return new EstadoJugadorIDLE();
 
   if (input.estaPresionado(SDL_SCANCODE_D))
-    P1.x += 1;
+    if(P1.x<935){P1.x += 7;}
   if (input.estaPresionado(SDL_SCANCODE_A))
-    P1.x -= 1;
+    if(P1.x>0){P1.x -= 7;}
 
   return NULL;
 };

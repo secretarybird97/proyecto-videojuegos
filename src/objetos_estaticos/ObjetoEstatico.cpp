@@ -9,7 +9,7 @@ Plataformas::Plataformas(int x, int y, int w, int h, SDL_Color color)
   avatar->set_rellenocolor(color);
   avatar->set_serellena(false);
   col_box = new Rectangulo(x, y, w + 5, h + 5, {0, 255, 0, 255});
-  tiene_fisica = false;
+  tiene_fisica = true;
   en_colision = false;
   sprite = nullptr;
   tile = nullptr;
@@ -30,6 +30,7 @@ Plataformas::Plataformas(TileInfo tiles, bool colision) {
         new Rectangulo(posicion_mundo.x - 10 - tile->get_sizes().x / 2,
                        posicion_mundo.y - tiles.height / 2, tiles.width + 20, 5,
                        {0, 0, 255, 255});
+    
   }
   tiene_fisica = colision;
   en_colision = false;
@@ -65,10 +66,10 @@ Background::Background(std::string path_sprite, int x, int y, int w, int h)
 };
 
 void Background::update(double dt) {
-  printf("x: %d, y: %d\n", posicion_camara.x, posicion_camara.y);
-  /*if (posicion_camara.y >= 2280) {
-    this->set_posicion_mundo({(int)(720 / 2), posicion_camara.x});
-  } else if (posicion_camara.y <= -1560) {
-    this->set_posicion_mundo({450, -82});
-  }*/
+  // cambiar los valores de la condicion de acuerdo al tamaño del fondo
+  if (posicion_mundo.y >= 2280) {
+    this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
+  } else if (posicion_mundo.y <= -1560) {
+    this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
+  }
 };

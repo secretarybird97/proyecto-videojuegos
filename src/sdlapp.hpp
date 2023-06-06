@@ -56,6 +56,8 @@ private:
 
   PlataformasSpawner *platspawn;
 
+  
+
 public:
   SDL_Color bg_color;
   static int on_correr();

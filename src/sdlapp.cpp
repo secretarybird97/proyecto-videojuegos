@@ -89,8 +89,12 @@ bool SDLApp::on_init() {
 
   ManejadorCamaras::get().set_camara(*get().camara_principal);
 
-  platspawn = new PlataformasSpawner("assets/sprites/mundo/bg/platform.png",
-                                     1024, 670, 48, 16, 216, 72,
+  // platspawn = new
+  // PlataformasSpawner("assets/sprites/mundo/bg/pared_sprite.png", 1024, 670,
+  // 216, 72, 100, 72, {0, 255, 0, 255}, *get().ensamble);
+
+  platspawn = new PlataformasSpawner("assets/sprites/mundo/bg/pared_sprite.png",
+                                     500, 875, 216, 72, 100, 72,
                                      {0, 255, 0, 255}, *get().ensamble);
 
   platspawn->set_velocidad(5);
@@ -98,7 +102,8 @@ bool SDLApp::on_init() {
   // 08 tiles
   mapa = new Atlas("assets/sprites/mundo/ids/mundo_ids.txt");
   mapa->generar_mapa(get().render, 2, 0);
-  // 05
+  // mapa->generar_mapa(get().render, 2, 0);
+  //  05
   player = new Jugador("assets/sprites/heroe/gato_sheet.png",
                        //      hp , x , y, sW,sH , vW,vH ,color
                        100, (int)(get().WIDTH / 2), (int)(get().HEIGHT), 500,
@@ -110,8 +115,8 @@ bool SDLApp::on_init() {
   plataformas = mapa->get_objetos_fisicos();
 
   PlataformasDinamicas *test =
-      new PlataformasDinamicas("assets/sprites/mundo/bg/platform.png", 700, 670,
-                               48, 16, 216, 72, {0, 255, 0, 255});
+      new PlataformasDinamicas("assets/sprites/mundo/bg/pared_sprite.png", 700,
+                               670, 216, 72, 100, 72, {0, 255, 0, 255});
 
   test->set_velocidad(5);
   get().ensamble->cargar_texturas(test->get_sprite());
@@ -124,17 +129,19 @@ bool SDLApp::on_init() {
 
   // 09 parallax
   backgrounds.push_back(new Background("assets/sprites/backgrounds/layer1v.png",
-                                       0, 0, BG_WIDTH, BG_HEIGHT));
+                                       0, 0, 1080, 3840));
 
   // ESTRELLAS PEQUEÑAS
   backgrounds.push_back(new Background("assets/sprites/backgrounds/layer2v.png",
-                                       0, 0, BG_WIDTH, BG_HEIGHT));
+                                       0, 0, 1080, 3840));
+
   for (auto bg : backgrounds) {
     get().ensamble->cargar_texturas(bg->get_sprite());
     objetos.push_back(bg);
   }
 
   for (int i = 0; i < plataformas.size(); i++) {
+    // agregar todos los objetos en una lista para la camara
     plataformas[i]->set_velocidad(5);
     objetos.push_back(plataformas[i]);
   }
@@ -184,7 +191,8 @@ void SDLApp::on_fisicaupdate(double dt) {
         p->render_colbox=true;*/
 
     if (p != player && p->get_colbox()) {
-      MotorFisico2D::get().diag_overlap(*player, *p);
+
+      // MotorFisico2D::get().diag_overlap(*player, *p); //hace que lo empuje
       bool pc = MotorFisico2D::get().aabb_colision(*player->get_colbox(),
                                                    *p->get_colbox());
       player->en_colision |= pc;
@@ -196,6 +204,9 @@ void SDLApp::on_fisicaupdate(double dt) {
         if (pplat) {
           MotorFisico2D::get().diag_overlap(*player, *p);
           player->set_onPlataforma(pplat);
+
+          // poner coordenada exacta en plataforma del jugador en y
+
           // player->en_colision=false;
         }
       }
@@ -209,6 +220,11 @@ void SDLApp::on_fisicaupdate(double dt) {
   ManejadorCamaras::get().input_handle(KeyOyente::get(), MouseOyente::get());
   ManejadorCamaras::get().update(objetos);
   // printf("update_fisica3\n");
+
+  /*if(muerto)
+  {
+    get().on_limpiar8();\\
+  }*/
 };
 
 void SDLApp::on_frameupdate(double dt) {

@@ -41,20 +41,22 @@ Jugador::Jugador(std::string path_sprite, float vida, int x, int y, int w,
   avatar->set_rellenocolor(c);
   // avatar->set_serellena(false);
   col_box = new Rectangulo(x, y - 5, sw - 25, sh - 10, c);
-  col_box->set_serellena(false);
+  // col_box = new Rectangulo(x, y, sw, sh, c);
+
+  col_box->set_serellena(true);
   tiene_fisica = true;
   en_colision = false;
   estado_actual = new EstadoJugadorIDLE();
 
   c.a = 255;
   col_piso =
-      new Rectangulo(x + 10, y + sh, sw / 2 + 10, 10, {150, 200, 0, 255});
+      new Rectangulo(x + 100, y + sh, sw / 2 + 10, 10, {150, 200, 0, 255});
 
   piso = {x, y + sw}; // definir el piso en general
   sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
   tile = nullptr;
   objetos = nullptr;
-  velocidad = 5;
+  velocidad = 2;
   dtgravedad = 0;
   area_plataforma = col_piso;
   centro = {posicion_camara.x + sprite->get_sprite_sizes().x / 2,
@@ -92,7 +94,7 @@ void Jugador::update(double dt) {
 
   // reset
 
-  if (en_plataforma) {
+  if (en_plataforma || posicion_mundo.y >= 800) {
     set_dtgf(0);
   }
   set_onPlataforma(false);
@@ -163,11 +165,16 @@ PlataformasDinamicas::PlataformasDinamicas(std::string sprite_path, int x,
   tile = nullptr;
   // usar para la colision
   col_box = new Rectangulo(x, y, sw, sh, c);
+  // col_box = new Rectangulo(x - 10, y, sw + 20, 5, {0, 0, 255, 255});
+  // col_box = new Rectangulo(x - 10, y, sw + 20, 5, {0, 0, 255, 255});
+  // col_box = nullptr;
   col_box->set_serellena(false);
   render_colbox = false;
 
   // usar para el area de piso de la plataforma
   area_plataforma = new Rectangulo(x - 10, y, sw + 20, 5, {0, 0, 255, 255});
+
+  // area_plataforma = new Rectangulo(x, y, sw, sh, {0, 0, 255, 255});
 
   // toda la imagen sprite?
   sprite = new Sprite(sprite_path, posicion_mundo, w, h, sw, sh);
@@ -177,6 +184,8 @@ PlataformasDinamicas::PlataformasDinamicas(std::string sprite_path, int x,
 };
 
 void PlataformasDinamicas::update(double dt) {
+  if (!area_plataforma)
+    return;
   area_plataforma->set_position(posicion_camara.x - 10, posicion_camara.y);
   area_plataforma->update_vertices();
   // DEBUGCOOR(area_plataforma->get_posicion());

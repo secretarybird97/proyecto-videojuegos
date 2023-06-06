@@ -74,7 +74,11 @@ void EstadoCamaraMoverDer::on_update(Camara &cam) {
   FSMJugador *estado = (FSMJugador *)obj->get_estado();
   if (estado->get_namestate() != "BRINCAR") {
     // pos.x += obj->get_velocidad();
-    obpos.x += obj->get_velocidad();
+    //obpos.x += obj->get_velocidad();
+    if(obpos.x < 935)
+    {
+      obpos.x += obj->get_velocidad();
+    }
   }
   /*for (auto &o : obj->get_objetos_mundo()) {
     if (o == obj) // si el elemnto es igual al player omitir
@@ -83,7 +87,7 @@ void EstadoCamaraMoverDer::on_update(Camara &cam) {
     po.x -= o->get_velocidad();
     o->set_posicion_mundo(po);
   }*/
-
+  
   // cam.set_posicion_mundo(pos);//mover la cámara con jugador
   obj->set_posicion_mundo(obpos);
 };
@@ -123,7 +127,11 @@ void EstadoCamaraMoverIzq::on_update(Camara &cam) {
   FSMJugador *e = (FSMJugador *)obj->get_estado();
   if (e->get_namestate() != "BRINCAR") {
     // pos.x  -= obj->get_velocidad();
-    obpos.x -= obj->get_velocidad();
+    //obpos.x -= obj->get_velocidad();
+    if(obpos.x > 0)
+    {
+      obpos.x -= obj->get_velocidad();
+    }
   }
 
   /*for (auto &o : obj->get_objetos_mundo()) {
@@ -136,6 +144,7 @@ void EstadoCamaraMoverIzq::on_update(Camara &cam) {
 
   // cam.set_posicion_mundo(pos); //mover la cámara con jugador
   obj->set_posicion_mundo(obpos);
+  
 };
 
 /*
@@ -143,7 +152,7 @@ TRANSICIÓN
 */
 EstadoCamaraTransicion::EstadoCamaraTransicion() {
   frames_actual = 0;
-  frames_maximo = 45;
+  frames_maximo = 15;
   strestado = "transicion";
 };
 
@@ -174,7 +183,7 @@ void EstadoCamaraTransicion::on_entrar(Camara &cam) {
 
   // convertir en posicion relativo a las coordenads camara
   centro = cam.get_posicion_centro();
-  pos_final.x -= centro.x;
+  pos_final.x = 0;
   pos_final.y -= centro.y;
 
   // la diferencia es la cantidad de pixeles que se mueve
@@ -204,7 +213,7 @@ void EstadoCamaraTransicion::on_update(Camara &cam) {
   check = LERP(pos_inicial, pos_final, t);
   cam.set_posicion_mundo(check);
   frames_actual++;
-  // DEBUGCOOR(cam.get_posicion_mundo())
+  //DEBUGCOOR(cam.get_posicion_mundo())
 };
 /*
 LOCK
@@ -235,10 +244,15 @@ void EstadoCamaraLock::on_update(Camara &cam) {
   // Alumnos implementa
 
   // simplemente la camara obtiene la posición del obj
-  Coordenadas pos_mundo = obj->get_posicion_mundo();
+  /*Coordenadas pos_mundo = obj->get_posicion_mundo();
   pos_mundo.x -= centro.x;
   pos_mundo.y -= centro.y;
   cam.set_posicion_mundo(pos_mundo);
   printf("LOCKCAMArA\n");
-  DEBUGLINEA(pos_mundo, obj->get_posicion_mundo())
+  DEBUGLINEA(pos_mundo, obj->get_posicion_mundo())*/
+
+  Coordenadas pos_mundo = obj->get_posicion_mundo();
+  //pos_mundo.x -= centro.x;
+  pos_mundo.y -= centro.y;
+  //cam.set_posicion_mundo(pos_mundo);
 };

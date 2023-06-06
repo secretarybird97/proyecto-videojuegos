@@ -17,7 +17,7 @@ PlataformasSpawner::PlataformasSpawner(std::string sprite_path, int x, int y,
   this->sw = sw; // ancho mostrar sprite
   this->sh = sh; // alto mostrar sprite
   objetos_activos = 0;
-  delay = 3;
+  delay = 1;
   init_tiempo = Tiempo::get_tiempo();
   check = false;
   pipeline = &p;
@@ -32,21 +32,25 @@ void PlataformasSpawner::spawn(std::vector<Objeto *> *lista) {
   int nw = sw+rand()%100;
   int nh = sh+rand()%100;*/
 
-  x += (sw * 2);
+  // x += (sw * 2);
+  y -= (sh * 4);
 
   PlataformasDinamicas *nuevo =
       new PlataformasDinamicas(sprite_path, x, y, w, h, sw, sh, colordebug);
   nuevo->set_velocidad(velocidad);
   pipeline->cargar_texturas(nuevo->get_sprite());
-  lista->push_back(nuevo);
+  lista->insert(lista->end() - 1, nuevo); // push_back
   objetos_activos++;
 };
 void PlataformasSpawner::set_velocidad(int v) { velocidad = v; }
 void PlataformasSpawner::despawn(std::vector<Objeto *> *lista) {
   int id = lista->size() - objetos_activos;
-  delete lista->at(id);
+
+  delete lista->at(id - 1);
+
   objetos_activos--;
-  lista->erase(std::next(lista->begin() + id - 1));
+  std::cout << (objetos_activos) << std::endl;
+  lista->erase(lista->end() - 6);
 };
 void PlataformasSpawner::update(std::vector<Objeto *> *lista) {
   double dt = Tiempo::get_tiempo() - init_tiempo;

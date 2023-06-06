@@ -65,7 +65,10 @@ void Pipeline::figuras(Figura* f)
 
 void Pipeline::pintar_texturas(Sprite *obj)
 {
-    Plotter::get().pintar_textura(ptrren,obj->get_textura(),*obj->get_sprite_src(),*obj->get_sprite_frame(),obj->get_sprite_sizes());
+    if(!obj->get_flip())
+        Plotter::get().pintar_textura(ptrren,obj->get_textura(),*obj->get_sprite_src(),*obj->get_sprite_frame(),obj->get_sprite_sizes());
+    else
+        Plotter::get().pintar_textura_flip(ptrren,obj->get_textura(),*obj->get_sprite_src(),*obj->get_sprite_frame(),obj->get_sprite_sizes());
 };
 
 void Pipeline::pintar_texturas(Tile *obj)

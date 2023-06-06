@@ -124,5 +124,34 @@ void Plotter::pintar_textura(SDL_Renderer *r,SDL_Texture *textura,SDL_Rect &src 
     //escalamiento y pintamos en pantalla
     dest.w=size.x;
     dest.h=size.y;
+    SDL_SetTextureBlendMode(textura,SDL_BLENDMODE_BLEND);
+    SDL_SetRenderTarget(r,textura);
     SDL_RenderCopy(r,textura,&src,&dest);
+    SDL_SetRenderTarget(r,NULL);
+};
+
+void Plotter::pintar_textura_flip(SDL_Renderer *r,SDL_Texture *textura,SDL_Rect &src , SDL_Rect &dest,Coordenadas size)
+{
+    SDL_QueryTexture(textura,NULL,NULL,NULL,NULL);
+    dest.w=size.x;
+    dest.h=size.y;
+    SDL_SetTextureBlendMode(textura,SDL_BLENDMODE_BLEND);
+    SDL_SetRenderTarget(r,textura);
+    SDL_RenderCopyEx(r,textura,&src,&dest,0,NULL,SDL_FLIP_HORIZONTAL);
+    SDL_SetRenderTarget(r,NULL);
+};
+
+void Plotter::set_renderer(SDL_Renderer &r)
+{
+    get().render = &r;
+};
+void Plotter::render_pixel(Coordenadas p, SDL_Color color)
+{
+    //designar como utilizar el alpha
+    SDL_SetRenderDrawBlendMode(get().render, SDL_BLENDMODE_BLEND);
+    //asignar el color
+    SDL_SetRenderDrawColor(get().render,color.r,color.g,color.b,color.a);
+    //pintar el pixel
+    SDL_RenderDrawPoint(get().render,p.x,p.y); 
+    
 };

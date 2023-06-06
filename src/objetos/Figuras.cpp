@@ -10,7 +10,7 @@ Rectangulo::Rectangulo(int x, int y, int w, int h,SDL_Color color)
     width =w;
     height=h;
     this->generar_vertices();
-    se_rellena=true;
+    se_rellena=false;
 };
 
 void Rectangulo::generar_vertices()
@@ -23,10 +23,10 @@ void Rectangulo::generar_vertices()
     vertices.push_back({posicion.x,posicion.y+height});
     */
     //pivote [centro] A--D--C--B--A
-    vertices.push_back({posicion.x-width/2,posicion.y-height/2}); //a
-    vertices.push_back({posicion.x-width/2,posicion.y+height/2}); //d
-    vertices.push_back({posicion.x+width/2,posicion.y+height/2}); //c
-    vertices.push_back({posicion.x+width/2,posicion.y-height/2}); //b
+    vertices.push_back({posicion.x,posicion.y}); //a
+    vertices.push_back({posicion.x,posicion.y+height}); //d
+    vertices.push_back({posicion.x+width,posicion.y+height}); //c
+    vertices.push_back({posicion.x+width,posicion.y}); //b
     
     
 };
@@ -34,10 +34,10 @@ void Rectangulo::generar_vertices()
 void Rectangulo::update_vertices()
 {
     //ajustar los vertices
-    vertices[0] = {posicion.x-width/2,posicion.y-height/2};
-    vertices[1] = {posicion.x-width/2,posicion.y+height/2};
-    vertices[2] = {posicion.x+width/2,posicion.y+height/2};
-    vertices[3] = {posicion.x+width/2,posicion.y-height/2};
+    vertices[0] = {posicion.x,posicion.y};
+    vertices[1] = {posicion.x,posicion.y+height};
+    vertices[2] = {posicion.x+width,posicion.y+height};
+    vertices[3] = {posicion.x+width,posicion.y};
     
     
 

@@ -250,9 +250,10 @@ void EstadoCamaraLock::on_update(Camara &cam) {
   cam.set_posicion_mundo(pos_mundo);
   printf("LOCKCAMArA\n");
   DEBUGLINEA(pos_mundo, obj->get_posicion_mundo())*/
-
+  /*
   Coordenadas pos_mundo = obj->get_posicion_mundo();
-  //pos_mundo.x -= centro.x;
+  pos_mundo.y -= centro.y;*/
+  Coordenadas pos_mundo = obj->get_posicion_mundo();
   pos_mundo.y -= centro.y;
   //cam.set_posicion_mundo(pos_mundo);
 };

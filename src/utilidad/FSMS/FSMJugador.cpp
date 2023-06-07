@@ -7,6 +7,7 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
+#include <math.h>
 
 /*
 IDLE
@@ -62,12 +63,12 @@ MOVER
 */
 EstadoJugadorIzquierda::EstadoJugadorIzquierda() {
   frames_actual_ani = 0;
-  frames_maxim_ani = 10;
+  frames_maxim_ani = 10; ////////////10
   strnombre = "IZQUIERDA";
 };
 void EstadoJugadorIzquierda::entrar(Jugador &player) {
   frames_actual_ani = 0;
-  frames_maxim_ani = 10;
+  frames_maxim_ani = 10; ////////////10
   player.get_sprite()->set_flip(true);
 };
 
@@ -330,12 +331,12 @@ EstadoJugadorGravedadBrinco::EstadoJugadorGravedadBrinco(int fuerza) {
 };
 
 FSMJugador *EstadoJugadorGravedadBrinco::input_handle(KeyOyente &input,
-                                                      MouseOyente &mouse) {
+                                                      MouseOyente &mouse) { /////////////////////    NIVEL
   if (!en_aire)
     return new EstadoJugadorIDLE();
-
+  int nivel 1;
   if (input.estaPresionado(SDL_SCANCODE_D))
-    if(P1.x<935){P1.x += 7;}
+    if(P1.x<935){P1.x += (5 + (pow(nivel,2) - nivel));} // nivel 1 = 11; nivel 2 = 7; nivel 3 = 5
   if (input.estaPresionado(SDL_SCANCODE_A))
     if(P1.x>0){P1.x -= 7;}
 

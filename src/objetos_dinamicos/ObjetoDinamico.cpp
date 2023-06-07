@@ -56,7 +56,7 @@ Jugador::Jugador(std::string path_sprite, float vida, int x, int y, int w,
   sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
   tile = nullptr;
   objetos = nullptr;
-  velocidad = 2;
+  velocidad = 0;
   dtgravedad = 0;
   area_plataforma = col_piso;
   centro = {posicion_camara.x + sprite->get_sprite_sizes().x / 2,

@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <iostream>
 
+
+
 PlataformasSpawner::PlataformasSpawner(std::string sprite_path, int x, int y,
                                        int w, int h, int sw, int sh,
                                        SDL_Color c, Pipeline &p) {
@@ -31,12 +33,13 @@ void PlataformasSpawner::spawn(std::vector<Objeto *> *lista) {
   int sy = y+rand()%200;
   int nw = sw+rand()%100;
   int nh = sh+rand()%100;*/
-
+  int nivel = 3; //nivel 1= facil; nivel 2= medio; nivel 3= dificil (lo hace más pequeño)
   // x += (sw * 2);
-  y -= (sh * 4 - 100);
-
+  //y -= (sh * 4 - 100);
+  y -= (sh * 4 - (100 / nivel));
+  
   PlataformasDinamicas *nuevo =
-      new PlataformasDinamicas(sprite_path, x, y, w, h, sw, sh, colordebug);
+      new PlataformasDinamicas(sprite_path, x, y, w, h, sw/nivel, sh/nivel, colordebug);
   nuevo->set_velocidad(velocidad);
   pipeline->cargar_texturas(nuevo->get_sprite());
   lista->insert(lista->end() - 1, nuevo); // push_back

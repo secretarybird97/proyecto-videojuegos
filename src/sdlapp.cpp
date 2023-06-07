@@ -19,6 +19,7 @@
 
 SDLApp *SDLApp::instancia = 0;
 
+
 SDLApp::SDLApp() {
   vnt = nullptr;
   vntsurf = nullptr;
@@ -109,7 +110,9 @@ bool SDLApp::on_init() {
                        100, (int)(get().WIDTH / 2), (int)(get().HEIGHT), 500,
                        520, 100, 100, {255, 0, 255, 255});
   get().ensamble->cargar_texturas(player->get_sprite());
-  player->set_velocidad(5);
+  int nivel = 3;
+  player->set_velocidad(nivel*5);
+  
   printf("Se creo el player\n");
 
   plataformas = mapa->get_objetos_fisicos();

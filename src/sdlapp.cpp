@@ -108,11 +108,15 @@ bool SDLApp::on_init() {
   mapa->generar_mapa(get().render, 2, 0, SCALE);
   // mapa->generar_mapa(get().render, 2, 0);
   //  05
-  player = new Jugador("assets/sprites/heroe/gato_sheet.png",
+  player = new Jugador("assets/sprites/mask_dude/mask_dude_sprite_sheet.png",
                        //      hp , x , y, sW,sH , vW,vH ,color
-                       100, (int)(get().WIDTH / 2), (int)(get().HEIGHT), 500,
-                       520, 100, 100, {255, 0, 255, 255});
+                       100, (int)(get().WIDTH / 2), (int)(get().HEIGHT), 32, 32,
+                       100, 100, {255, 0, 255, 255});
+  player->set_sprite_salto(new Sprite(
+      "assets/sprites/mask_dude/jump.png",
+      {(int)(get().WIDTH / 2), (int)(get().HEIGHT)}, 32, 32, 100, 100));
   get().ensamble->cargar_texturas(player->get_sprite());
+  get().ensamble->cargar_texturas(player->get_sprite_salto());
 
   player->set_velocidad(nivel * 5);
   printf("velocidad: %d\n", nivel);
@@ -266,22 +270,32 @@ void SDLApp::on_frameupdate(double dt) {
   Coordenadas pm = player->get_posicion_mundo();
   Coordenadas pc = player->get_posicion_camara();
 
+  if (puntuacion < (double)abs(pm.y) && pm.y < 0) {
+    puntuacion = (double)abs(pm.y);
+  }
+
+  RenderTexto::get().render_texto(get().render, 100, 100,
+                                  "Puntaje maximo: " +
+                                      std::to_string((int)puntuacion),
+                                  150, 50, SDL_Color{255, 255, 255, 255});
+
   FSMJugador *lol = (FSMJugador *)player->get_estado();
   if (lol->get_namestate() == "MUERTO") {
     RenderTexto::get().render_texto(get().render, 200, 200, "ESTAS MUERTO", 500,
                                     500, {0, 0, 0, 255});
   } else {
-    std::string spm =
+    /* std::string spm =
         "mundo ( " + std::to_string(pm.x) + ", " + std::to_string(pm.y) + ")";
 
     RenderTexto::get().render_texto(get().render, 100, 100, spm, 150, 50,
                                     {0, 0, 0, 255});
+    */
 
-    std::string spc =
+    /*std::string spc =
         "camara ( " + std::to_string(pc.x) + ", " + std::to_string(pc.y) + ")";
 
     RenderTexto::get().render_texto(get().render, 800, 100, spc, 150, 50,
-                                    {0, 0, 0, 255});
+                                    {0, 0, 0, 255});*/
 
     // get().ensamble->figuras(player->get_col_piso());
     FSMJugador *e = (FSMJugador *)player->get_estado();

@@ -29,6 +29,8 @@ private:
   SDL_Surface *vntsurf;
   SDL_Renderer *render;
 
+  double puntuacion{0};
+
   // singleton
   static SDLApp *instancia;
 

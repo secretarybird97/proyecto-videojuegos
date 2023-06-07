@@ -47,6 +47,12 @@ public:
   void set_onPlataforma(bool v);
   Coordenadas get_centro() const { return centro; };
 
+  Sprite *get_sprite_salto() const { return sprite_salto; };
+  void set_sprite_salto(Sprite *s) { sprite_salto = s; };
+
+protected:
+  Sprite *sprite_salto;
+
 private:
   FSMJugador *estado_actual;
   Coordenadas piso;

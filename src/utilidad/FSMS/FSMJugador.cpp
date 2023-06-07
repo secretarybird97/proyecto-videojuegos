@@ -16,7 +16,7 @@ IDLE
 EstadoJugadorIDLE::EstadoJugadorIDLE() {
   strnombre = "IDLE";
   frames_actual_ani = 0;
-  frames_maxim_ani = 10;
+  frames_maxim_ani = 11; // cantidad de accuibes qye hay en el sprite
   dir = 1;
 };
 
@@ -42,7 +42,7 @@ if(input.estaPresionado(SDL_SCANCODE_A))
 };
 void EstadoJugadorIDLE::entrar(Jugador &player) {
   frames_actual_ani = 0;
-  frames_maxim_ani = 10;
+  frames_maxim_ani = 11;
   // DEBUGCOOR(player.get_piso());
   dir = (player.get_sprite()->get_flip()) ? -1 : 1;
   // printf("DIR: %d\n",dir);
@@ -63,13 +63,13 @@ void EstadoJugadorIDLE::update(Jugador &player, double dt) {
 MOVER
 */
 EstadoJugadorIzquierda::EstadoJugadorIzquierda() {
-  frames_actual_ani = 0;
-  frames_maxim_ani = 10; ////////////10
+  frames_actual_ani = 11;
+  frames_maxim_ani = 23; ////////////10
   strnombre = "IZQUIERDA";
 };
 void EstadoJugadorIzquierda::entrar(Jugador &player) {
-  frames_actual_ani = 0;
-  frames_maxim_ani = 10; ////////////10
+  frames_actual_ani = 11;
+  frames_maxim_ani = 23; ////////////10
   player.get_sprite()->set_flip(true);
 };
 
@@ -106,9 +106,13 @@ void EstadoJugadorIzquierda::update(Jugador &player, double dt) {
   p.x +=(player.get_velocidad()*-1);
   player.set_posicion_mundo(p);
   printf("[izquierda] (%d,%d)\n",p.x,p.y);*/
-  player.get_sprite()->play_frame(1, frames_actual_ani % frames_maxim_ani);
+  if (frames_actual_ani % frames_maxim_ani == 0)
+    frames_actual_ani = 11;
+  player.get_sprite()->play_frame(0, frames_actual_ani % frames_maxim_ani);
 
-  if (frame_dt > 3) {
+  // printf("frame_dt: %d\n", frames_actual_ani % frames_maxim_ani);
+
+  if (frame_dt > 5) {
     frame_dt = 0;
     frames_actual_ani++;
   }
@@ -117,13 +121,13 @@ void EstadoJugadorIzquierda::update(Jugador &player, double dt) {
 
 //--
 EstadoJugadorDerecha::EstadoJugadorDerecha() {
-  frames_actual_ani = 0;
-  frames_maxim_ani = 10;
+  frames_actual_ani = 11;
+  frames_maxim_ani = 23;
   strnombre = "DERECHA";
 };
 void EstadoJugadorDerecha::entrar(Jugador &player) {
-  frames_actual_ani = 0;
-  frames_maxim_ani = 10;
+  frames_actual_ani = 11;
+  frames_maxim_ani = 23;
   player.get_sprite()->set_flip(false);
   // ManejadorCamaras::unluck_objeto();
 };
@@ -165,9 +169,13 @@ void EstadoJugadorDerecha::update(Jugador &player, double dt) {
       p.x +=(player.get_velocidad());
       player.set_posicion_mundo(p);
   }*/
-  player.get_sprite()->play_frame(1, frames_actual_ani % frames_maxim_ani);
+  if (frames_actual_ani % frames_maxim_ani == 0)
+    frames_actual_ani = 11;
+  player.get_sprite()->play_frame(0, frames_actual_ani % frames_maxim_ani);
 
-  if (frame_dt > 3) {
+  // printf("frame_dt: %d\n", frames_actual_ani % frames_maxim_ani);
+
+  if (frame_dt > 5) {
     frame_dt = 0;
     frames_actual_ani++;
   }
@@ -251,7 +259,7 @@ void EstadoJugadorSubeBrinco::update(Jugador &player, double dt) {
   // printf("A(%d,%d)\n",actual.x,actual.y);
   temp = p;
 
-  player.get_sprite()->play_frame(2, frames_actual_ani % frames_maxim_ani);
+  player.get_sprite_salto()->play_frame(0, 0);
 
   frames_actual++;
   if (frame_dt > (int)frames_maximos / 8) {
@@ -308,7 +316,7 @@ void EstadoJugadorBajaBrinco::update(Jugador &player, double dt) {
   // printf("A(%d,%d)\n",actual.x,actual.y);
   temp = p;
 
-  player.get_sprite()->play_frame(2, frames_actual_ani % frames_maxim_ani);
+  player.get_sprite_salto()->play_frame(0, 0);
 
   frames_actual++;
 
@@ -367,10 +375,8 @@ void EstadoJugadorGravedadBrinco::salir(Jugador &player){
 
 void EstadoJugadorGravedadBrinco::update(Jugador &player, double dt) {
 
-  player.get_sprite()->play_frame(2, frames_actual_ani % frames_maxim_ani);
+  player.get_sprite_salto()->play_frame(0, 0);
   P1.y += player.get_dtgf();
-
-  printf("PLAYER.SETF_DTGF(%.2f)\n", player.get_dtgf());
 
   if (player.get_dtgf() > 15.0) {
     se_murio = true;
@@ -468,7 +474,7 @@ void EstadoJugadorLerpBrinco::update(Jugador &player, double dt) {
   // DEBUGLINEA(temp,actual);
   temp = brinco;
 
-  player.get_sprite()->play_frame(2, frames_actual_ani % frames_maxim_ani);
+  player.get_sprite_salto()->play_frame(0, 0);
   frame_actual++;
 
   if (frame_dt > (int)3) {

@@ -32,3 +32,9 @@ struct TileInfo {
   int width;
   int height;
 };
+
+struct SpriteInfo {
+  std::vector<std::string> sprites; // [0] = idle, [1] = walk/run, [2] = jump
+  int w;
+  int h;
+};

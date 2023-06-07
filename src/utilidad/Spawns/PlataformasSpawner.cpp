@@ -27,18 +27,19 @@ PlataformasSpawner::PlataformasSpawner(std::string sprite_path, int x, int y,
 
 void PlataformasSpawner::spawn(std::vector<Objeto *> *lista) {
   // random
-  // srand((unsigned)time(NULL));
-  /*int sx = x + rand() % 100;
-  int sy = y + rand() % 200;
-  int nw = sw + rand() % 100;
-  int nh = sh + rand() % 100;*/
+  /*srand((unsigned) time(NULL));
+  int sx = x+rand()%100;
+  int sy = y+rand()%200;
+  int nw = sw+rand()%100;
+  int nh = sh+rand()%100;*/
 
   int min = 0 + sw;
   int max = 935 - sw;
 
-  int x = min + (std::rand() % (max - min + 1));
-  // y -= (sh * 4 - (100 / SDLApp_AUX::get_nivel()));
+  x = min + (std::rand() % (max - min + 1));
+  // y -= (sh * 4 - 100);
 
+  // nivel 1= facil; nivel 2= medio; nivel 3= dificil (lo hace más pequeño)
   y -= (sh * (6 - SDLApp_AUX::get_nivel()) -
         (100 / 6 - SDLApp_AUX::get_nivel()));
 
@@ -66,18 +67,21 @@ void PlataformasSpawner::update(std::vector<Objeto *> *lista) {
   // DEBUGPRINT(dt)
   // DEBUGPRINT(past_tiempo)
   if ((int)dt != 0 && ((int)dt) % delay == 0 && check == false &&
-      objetos_activos < (20 - SDLApp_AUX::get_nivel() * 5)) {
+      objetos_activos < (20 - (SDLApp_AUX::get_nivel() *
+                               5))) // nivel 1 = 15; nivel 2 = 10; nivel 3 = 5
+  {
 
     spawn(lista);
     past_tiempo = dt;
     check = true;
-    DEBUGPRINT(std::to_string(dt) + " SPWAN " + std::to_string(objetos_activos))
-    DEBUGCOOR(lista->at(lista->size() - 1)->get_posicion_mundo());
+    // DEBUGPRINT(std::to_string(dt) + " SPWAN " +
+    // std::to_string(objetos_activos)) DEBUGCOOR(lista->at(lista->size() -
+    // 1)->get_posicion_mundo());
   }
 
   if ((int)dt != 0 && (int)dt % (delay * (4 - SDLApp_AUX::get_nivel())) == 0 &&
       !check) {
-    DEBUGPRINT("DESPWAN")
+    // DEBUGPRINT("DESPWAN")
     despawn(lista);
     // check=true;
   }

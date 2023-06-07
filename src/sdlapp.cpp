@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <iostream>
 #include <math.h>
+// #include <thread>
 
 // #define RECTANGULOS
 // #define TRIANGULOS
@@ -49,6 +50,7 @@ bool SDLApp::on_init() {
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
     return false;
   };
+  // std::this_thread::sleep_for(std::chrono::milliseconds(5000));
   // crear la ventana
   get().vnt =
       SDL_CreateWindow("Juego",                 // Titulo de la ventana
@@ -77,6 +79,8 @@ bool SDLApp::on_init() {
     printf("No se creo el renderer por: %s", SDL_GetError());
     return false;
   }
+
+  // tiempo = Tiempo::get_tiempo();
 
   Plotter::get().set_renderer(*get().render);
   // si se creo correcto lo agregamos al Pipeline
@@ -117,12 +121,12 @@ bool SDLApp::on_init() {
 
   plataformas = mapa->get_objetos_fisicos();
 
-  PlataformasDinamicas *test =
-      new PlataformasDinamicas("assets/sprites/mundo/bg/pared_sprite.png", 700,
-                               670, 216, 72, 100, 72, {0, 255, 0, 255});
+  // PlataformasDinamicas *test =
+  //  new PlataformasDinamicas("assets/sprites/mundo/bg/pared_sprite.png", 700,
+  //                        670, 216, 72, 100, 72, {0, 255, 0, 255});
 
-  test->set_velocidad(5);
-  get().ensamble->cargar_texturas(test->get_sprite());
+  // test->set_velocidad(5);
+  // get().ensamble->cargar_texturas(test->get_sprite());
 
   // plataformadinamicas.push_back(test);
 
@@ -150,7 +154,7 @@ bool SDLApp::on_init() {
     plataformas[i]->set_velocidad(5);
     objetos.push_back(plataformas[i]);
   }
-  objetos.push_back(test);
+  // objetos.push_back(test);
 
   player->set_objetos_mundo(objetos);
 
@@ -189,13 +193,11 @@ void SDLApp::on_fisicaupdate(double dt) {
       KeyOyente::get().reiniciar();
 
       get().reiniciar();
-    }
-    if (KeyOyente::get().estaPresionado(SDL_SCANCODE_2)) {
+    } else if (KeyOyente::get().estaPresionado(SDL_SCANCODE_2)) {
       nivel = 2;
       KeyOyente::get().reiniciar();
       get().reiniciar();
-    }
-    if (KeyOyente::get().estaPresionado(SDL_SCANCODE_3)) {
+    } else if (KeyOyente::get().estaPresionado(SDL_SCANCODE_3)) {
       nivel = 3;
       KeyOyente::get().reiniciar();
       get().reiniciar();
@@ -264,34 +266,40 @@ void SDLApp::on_frameupdate(double dt) {
   Coordenadas pm = player->get_posicion_mundo();
   Coordenadas pc = player->get_posicion_camara();
 
-  std::string spm =
-      "mundo ( " + std::to_string(pm.x) + ", " + std::to_string(pm.y) + ")";
+  FSMJugador *lol = (FSMJugador *)player->get_estado();
+  if (lol->get_namestate() == "MUERTO") {
+    RenderTexto::get().render_texto(get().render, 200, 200, "ESTAS MUERTO", 500,
+                                    500, {0, 0, 0, 255});
+  } else {
+    std::string spm =
+        "mundo ( " + std::to_string(pm.x) + ", " + std::to_string(pm.y) + ")";
 
-  RenderTexto::get().render_texto(get().render, 100, 100, spm, 150, 50,
-                                  {0, 0, 0, 255});
+    RenderTexto::get().render_texto(get().render, 100, 100, spm, 150, 50,
+                                    {0, 0, 0, 255});
 
-  std::string spc =
-      "camara ( " + std::to_string(pc.x) + ", " + std::to_string(pc.y) + ")";
+    std::string spc =
+        "camara ( " + std::to_string(pc.x) + ", " + std::to_string(pc.y) + ")";
 
-  RenderTexto::get().render_texto(get().render, 800, 100, spc, 150, 50,
-                                  {0, 0, 0, 255});
+    RenderTexto::get().render_texto(get().render, 800, 100, spc, 150, 50,
+                                    {0, 0, 0, 255});
 
-  // get().ensamble->figuras(player->get_col_piso());
-  FSMJugador *e = (FSMJugador *)player->get_estado();
-  RenderTexto::get().render_texto(get().render, 600, 600, e->get_namestate(),
-                                  100, 50, {255, 0, 255, 255});
+    // get().ensamble->figuras(player->get_col_piso());
+    FSMJugador *e = (FSMJugador *)player->get_estado();
+    RenderTexto::get().render_texto(get().render, 600, 600, e->get_namestate(),
+                                    100, 50, {255, 0, 255, 255});
 
-  FSMCamara *ce = (FSMCamara *)ManejadorCamaras::get().get_estado();
-  RenderTexto::get().render_texto(get().render, 100, 600, ce->strestado, 100,
-                                  50, {255, 0, 255, 255});
+    FSMCamara *ce = (FSMCamara *)ManejadorCamaras::get().get_estado();
+    RenderTexto::get().render_texto(get().render, 100, 600, ce->strestado, 100,
+                                    50, {255, 0, 255, 255});
 
-  RenderTexto::get().render_texto(get().render, 10, 400,
-                                  "Difultad: " + std::to_string(nivel), 100, 50,
-                                  {255, 0, 255, 255});
+    RenderTexto::get().render_texto(get().render, 10, 400,
+                                    "Difultad: " + std::to_string(nivel), 100,
+                                    50, {255, 0, 255, 255});
 
-  RenderTexto::get().render_texto(get().render, 60, 680,
-                                  "Presione V para cerrar el juego", 200, 30,
-                                  SDL_Color{255, 255, 255, 255});
+    RenderTexto::get().render_texto(get().render, 60, 680,
+                                    "Presione V para cerrar el juego", 200, 30,
+                                    SDL_Color{255, 255, 255, 255});
+  }
 
   // Actualizar
   SDL_RenderPresent(get().render);
@@ -345,6 +353,17 @@ int SDLApp::on_correr(int n) {
 
     get().on_fisicaupdate(dt);
     get().on_frameupdate(dt);
+
+    FSMJugador *lol = (FSMJugador *)get().player->get_estado();
+
+    if (lol->get_namestate() == "MUERTO" && get().op) {
+      get().segMuerte = (int)Tiempo::get_tiempo();
+      get().op = false;
+    }
+    if (((get().segMuerte + 2) <= (int)(Tiempo::get_tiempo())) && !get().op) {
+      KeyOyente::get().reiniciar();
+      get().reiniciar();
+    }
 
     // calculamos el tiempo del frame
     dt = (Tiempo::get_tiempo() - inicio) / (frecuencia * 1000);

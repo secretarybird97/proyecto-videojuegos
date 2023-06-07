@@ -60,6 +60,12 @@ private:
 
   int nivel{1};
 
+  int segMuerte{0};
+
+  bool op = true;
+
+  // double tiempo;
+
 public:
   SDL_Color bg_color;
   static int on_correr(int n);

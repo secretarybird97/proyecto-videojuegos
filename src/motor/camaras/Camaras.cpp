@@ -7,13 +7,15 @@ Camara::Camara(int x, int y, int w, int h, SDL_Renderer &view) {
   // se considera que la camara empieza en 0,0 y es toda la pantalla
   // si se quiere centrar hay que desplazar w y h en todos los cálculos.
   escala = {450, 200};    //{200,100};
-  offset_vertical = -190; //-190
+  offset_vertical = -130; //-190
 
   width = w;
   height = h;
-  pos_mundo = {x, y};
-  pos_centro = {x + w / 2, y + h / 2};
-
+  pos_mundo = {x, y};                  // posicion de el mundo
+  pos_centro = {x + w / 2, y + h / 2}; // es la posicion de la camara
+  printf("pos_mundo: %d, %d\n", pos_mundo.x, pos_mundo.y);
+  printf("pos_centro: %d, %d\n", pos_centro.x, pos_centro.y);
+  printf("w,h: %d, %d\n", w, h);
   cruz.push_back({pos_centro.x - (w / 4), y + h / 2});
   cruz.push_back({pos_centro.x + (w / 4), y + h / 2});
   cruz.push_back({pos_centro.x + (w / 4), y});
@@ -35,9 +37,9 @@ Camara::Camara(int x, int y, int w, int h, SDL_Renderer &view) {
       {pos_centro.x + (w / 4) + escala.x, 350 - escala.y + offset_vertical});
 
   liminf.push_back(
-      {pos_centro.x - (w / 4) - escala.x, 550 + escala.y + offset_vertical});
+      {pos_centro.x - (w / 4) - escala.x, 200 + escala.y + offset_vertical});
   liminf.push_back(
-      {pos_centro.x + (w / 4) + escala.x, 550 + escala.y + offset_vertical});
+      {pos_centro.x + (w / 4) + escala.x, 200 + escala.y + offset_vertical});
 
   viewport = &view;
   objensamble = new Pipeline(view);
@@ -54,10 +56,10 @@ Camara::~Camara() {
 
 void Camara::render_cross() {
   // objensamble->lineas(cruz,{0,255,0,180});
-  objensamble->lineas(limder, {0, 0, 0, 180});
-  objensamble->lineas(limizq, {0, 0, 0, 180});
+  objensamble->lineas(limder, {0, 0, 0, 0});
+  objensamble->lineas(limizq, {0, 0, 0, 0});
   objensamble->lineas(limsup, {0, 0, 0, 180});
-  objensamble->lineas(liminf, {0, 0, 0, 180});
+  objensamble->lineas(liminf, {0, 0, 0, 0});
 };
 
 void Camara::lock_objeto(Objeto &obj) {
@@ -124,12 +126,12 @@ void Camara::update() {
       set_estado(new EstadoCamaraTransicion());
   }
 
-  if (objeto_seguir->get_centro().y > 550 + escala.y + offset_vertical) {
+  if (objeto_seguir->get_centro().y > 450 + escala.y + offset_vertical) {
     if (e->strestado != "transicion")
       set_estado(new EstadoCamaraTransicion());
   }
 
-  if (objeto_seguir->get_centro().y < 350 - escala.y + offset_vertical) {
+  if (objeto_seguir->get_centro().y < 450 - escala.y + offset_vertical) {
     if (e->strestado != "transicion")
       set_estado(new EstadoCamaraTransicion());
   }

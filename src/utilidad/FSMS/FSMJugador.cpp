@@ -335,7 +335,11 @@ FSMJugador *EstadoJugadorGravedadBrinco::input_handle(
     KeyOyente &input,
     MouseOyente &mouse) { /////////////////////    NIVEL
   if (!en_aire)
-    return new EstadoJugadorIDLE();
+    return new EstadoJugadorGravedadBrinco(f);
+
+  if (se_murio)
+    return new EstadoJugadorMuerto();
+
   if (input.estaPresionado(SDL_SCANCODE_D))
     if (P1.x < 935) {
       P1.x += (5 + (pow(SDLApp_AUX::get_nivel(), 2) - SDLApp_AUX::get_nivel()));
@@ -353,6 +357,7 @@ void EstadoJugadorGravedadBrinco::entrar(Jugador &player) {
   P1 = player.get_posicion_mundo(); // player.get_piso();
   en_aire = true;
   player.set_onPlataforma(false);
+  se_murio = false;
 
   // ManejadorCamaras::set_estado(new EstadoCamaraTransicion());
 };
@@ -365,6 +370,12 @@ void EstadoJugadorGravedadBrinco::update(Jugador &player, double dt) {
   player.get_sprite()->play_frame(2, frames_actual_ani % frames_maxim_ani);
   P1.y += player.get_dtgf();
 
+  printf("PLAYER.SETF_DTGF(%.2f)\n", player.get_dtgf());
+
+  if (player.get_dtgf() > 15.0) {
+    se_murio = true;
+  }
+
   player.set_posicion_mundo(P1);
   if (player.get_onPlataforma())
     en_aire = false;
@@ -375,6 +386,28 @@ void EstadoJugadorGravedadBrinco::update(Jugador &player, double dt) {
       frames_actual_ani++;
   }
   frame_dt++;
+};
+
+/*JUGADOR MUERTO*/
+EstadoJugadorMuerto::EstadoJugadorMuerto() {
+  frames_actual_ani = 0;
+  frames_maxim_ani = 8;
+  strnombre = "MUERTO";
+};
+
+FSMJugador *EstadoJugadorMuerto::input_handle(KeyOyente &input,
+                                              MouseOyente &mouse) {
+  return NULL;
+};
+
+void EstadoJugadorMuerto::entrar(Jugador &player) {}
+
+void EstadoJugadorMuerto::salir(Jugador &player){
+
+};
+
+void EstadoJugadorMuerto::update(Jugador &player, double dt){
+
 };
 
 /*LERP(LERP)*/

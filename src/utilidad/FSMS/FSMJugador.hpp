@@ -118,6 +118,18 @@ private:
   int f;
   Coordenadas P1;
   bool en_aire;
+  bool se_murio;
+};
+
+// MUERTO
+class EstadoJugadorMuerto : public FSMJugador {
+public:
+  EstadoJugadorMuerto();
+  virtual ~EstadoJugadorMuerto(){};
+  FSMJugador *input_handle(KeyOyente &input, MouseOyente &mouse);
+  void entrar(Jugador &player);
+  void salir(Jugador &player);
+  void update(Jugador &player, double dt);
 };
 
 class EstadoJugadorLerpBrinco : public FSMJugador {

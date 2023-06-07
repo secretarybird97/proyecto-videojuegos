@@ -32,7 +32,7 @@ SDLApp::SDLApp() {
 
   esta_corriendo = true;
   WIDTH = 1024;
-  HEIGHT = 720;
+  HEIGHT = 800; //720
   maxFPS = 60;
   fps = 0;
 };
@@ -110,7 +110,7 @@ bool SDLApp::on_init() {
                        100, (int)(get().WIDTH / 2), (int)(get().HEIGHT), 500,
                        520, 100, 100, {255, 0, 255, 255});
   get().ensamble->cargar_texturas(player->get_sprite());
-  int nivel = 1;
+  int nivel = 3;
   player->set_velocidad(nivel*5);
   
   printf("Se creo el player\n");

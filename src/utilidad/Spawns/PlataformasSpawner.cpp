@@ -61,12 +61,12 @@ void PlataformasSpawner::despawn(std::vector<Objeto *> *lista) {
 
   objetos_activos--;
   std::cout << (objetos_activos) << std::endl;
-  int nivel = 1;
+  int nivel = 3;
   lista->erase(lista->end() - (21-(nivel*5)));
 };
 void PlataformasSpawner::update(std::vector<Objeto *> *lista) {
   double dt = Tiempo::get_tiempo() - init_tiempo;
-  int nivel = 1;
+  int nivel = 3;
   // DEBUGPRINT(dt)
   // DEBUGPRINT(past_tiempo)
   if ((int)dt != 0 && ((int)dt) % delay == 0 && check == false &&

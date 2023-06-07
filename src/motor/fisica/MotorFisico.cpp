@@ -8,7 +8,7 @@
 
 MotorFisico2D *MotorFisico2D::instancia = 0;
 int nivel = 3;
-float MotorFisico2D::gforce = ((15+((pow(nivel,2) - nivel))) / 100); //nivel 1 = 0.15f; nivel 2 = 0.17f; nivel 3 = 0.21f;
+float MotorFisico2D::gforce = (float)(10+ (nivel*3)) / 100; //nivel 1 = 0.13f; nivel 2 = 0.16f; nivel 3 = 0.19f;
 
 
 
@@ -225,7 +225,7 @@ void MotorFisico2D::gravedad(std::vector<ObjetoDinamico *> objs) {
       continue;
     int cy = o->get_posy();
     // if(o->get_dtgf()!=0)
-    if (o->get_dtgf() <= (30+((nivel-1)*20))) // cap, decia 5 VELOCIDAD DE CAIDA !! //70=nivel3; 50; nivel2; 30=nivel1
+    if (o->get_dtgf() <= (20+((nivel-1)*20))) // cap, decia 5 VELOCIDAD DE CAIDA !! //60=nivel3; 40; nivel2; 20=nivel1
       o->set_dtgf(o->get_dtgf() + get().gforce);
     int y = cy + o->get_dtgf();
     o->set_posy(y);

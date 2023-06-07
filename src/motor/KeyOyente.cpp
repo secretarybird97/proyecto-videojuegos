@@ -24,3 +24,8 @@ bool KeyOyente::nadaPresionado() {
 
   return (s == 0);
 };
+
+void KeyOyente::reiniciar() {
+  for (auto i = 0; i < SDL_NUM_SCANCODES; ++i)
+    keys[i] = false;
+};

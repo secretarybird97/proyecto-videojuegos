@@ -2,12 +2,13 @@
 #include "../../motor/Plotter.hpp"
 #include "../../motor/camaras/ManejadorCamara.hpp"
 #include "../../motor/fisica/MotorFisico.hpp"
+#include "../../sdlapp_aux.hpp"
 #include "../Func_aux.hpp"
 #include <SDL.h>
 #include <cmath>
 #include <iostream>
-#include <sstream>
 #include <math.h>
+#include <sstream>
 
 /*
 IDLE
@@ -330,15 +331,19 @@ EstadoJugadorGravedadBrinco::EstadoJugadorGravedadBrinco(int fuerza) {
   en_aire = true;
 };
 
-FSMJugador *EstadoJugadorGravedadBrinco::input_handle(KeyOyente &input,
-                                                      MouseOyente &mouse) { /////////////////////    NIVEL
+FSMJugador *EstadoJugadorGravedadBrinco::input_handle(
+    KeyOyente &input,
+    MouseOyente &mouse) { /////////////////////    NIVEL
   if (!en_aire)
     return new EstadoJugadorIDLE();
-  int nivel 1;
   if (input.estaPresionado(SDL_SCANCODE_D))
-    if(P1.x<935){P1.x += (5 + (pow(nivel,2) - nivel));} // nivel 1 = 11; nivel 2 = 7; nivel 3 = 5
+    if (P1.x < 935) {
+      P1.x += (5 + (pow(SDLApp_AUX::get_nivel(), 2) - SDLApp_AUX::get_nivel()));
+    } // nivel 1 = 11; nivel 2 = 7; nivel 3 = 5
   if (input.estaPresionado(SDL_SCANCODE_A))
-    if(P1.x>0){P1.x -= 7;}
+    if (P1.x > 0) {
+      P1.x -= 7;
+    }
 
   return NULL;
 };

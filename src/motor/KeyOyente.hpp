@@ -10,4 +10,5 @@ public:
   static void keyPresionado(SDL_Event *e);
   static bool estaPresionado(int key) { return get().keys[key]; };
   static bool nadaPresionado();
+  void reiniciar();
 };

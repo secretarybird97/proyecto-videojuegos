@@ -13,11 +13,13 @@
 class SDLApp {
 private:
   SDLApp();
+  ~SDLApp();
   bool on_init();
   void on_evento(SDL_Event *evento);
   void on_fisicaupdate(double dt);
   void on_frameupdate(double dt);
   void on_limpiar();
+  void reiniciar();
 
   bool esta_corriendo;
   int WIDTH;
@@ -56,11 +58,11 @@ private:
 
   PlataformasSpawner *platspawn;
 
-  
+  int nivel{1};
 
 public:
   SDL_Color bg_color;
-  static int on_correr();
+  static int on_correr(int n);
   static void set_bgcolor(Uint8 rojo, Uint8 verde, Uint8 azul);
   static SDLApp &get();
   static bool estaCorriendo() { return get().esta_corriendo; };

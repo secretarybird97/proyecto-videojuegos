@@ -19,7 +19,6 @@
 
 SDLApp *SDLApp::instancia = 0;
 
-
 SDLApp::SDLApp() {
   vnt = nullptr;
   vntsurf = nullptr;
@@ -110,9 +109,9 @@ bool SDLApp::on_init() {
                        100, (int)(get().WIDTH / 2), (int)(get().HEIGHT), 500,
                        520, 100, 100, {255, 0, 255, 255});
   get().ensamble->cargar_texturas(player->get_sprite());
-  int nivel = 3;
-  player->set_velocidad(nivel*5);
-  
+
+  player->set_velocidad(nivel * 5);
+
   printf("Se creo el player\n");
 
   plataformas = mapa->get_objetos_fisicos();
@@ -180,6 +179,25 @@ void SDLApp::on_evento(SDL_Event *evento) {
 
 void SDLApp::on_fisicaupdate(double dt) {
 
+  if (KeyOyente::get().estaPresionado(SDL_SCANCODE_P)) {
+    // printf("Pausa\n");
+    if (KeyOyente::get().estaPresionado(SDL_SCANCODE_1)) {
+      nivel = 1;
+      KeyOyente::get().reiniciar();
+
+      get().reiniciar();
+    }
+    if (KeyOyente::get().estaPresionado(SDL_SCANCODE_2)) {
+      nivel = 2;
+      KeyOyente::get().reiniciar();
+      get().reiniciar();
+    }
+    if (KeyOyente::get().estaPresionado(SDL_SCANCODE_3)) {
+      nivel = 3;
+      KeyOyente::get().reiniciar();
+      get().reiniciar();
+    }
+  }
   // Camara Lock UnLock
   if (ManejadorCamaras::get().get_camara().get_obj_lock()) {
   }
@@ -215,14 +233,13 @@ void SDLApp::on_fisicaupdate(double dt) {
       }
     }
   }
-  //  printf("update_fisica2\n");
+//  printf("update_fisica2\n");
 #ifdef GRAVEDAD
   MotorFisico2D::get().gravedad({player});
 #endif
   /*CAMARA al final para actualizar la proyeción de los objetos*/
   ManejadorCamaras::get().input_handle(KeyOyente::get(), MouseOyente::get());
   ManejadorCamaras::get().update(objetos);
-  // printf("update_fisica3\n");
 
   /*if(muerto)
   {
@@ -239,6 +256,8 @@ void SDLApp::on_frameupdate(double dt) {
   camara_principal->render_cross();
 
   // printf("update_frame\n");
+
+  // print keypress
 
   Coordenadas pm = player->get_posicion_mundo();
   Coordenadas pc = player->get_posicion_camara();
@@ -263,6 +282,10 @@ void SDLApp::on_frameupdate(double dt) {
   FSMCamara *ce = (FSMCamara *)ManejadorCamaras::get().get_estado();
   RenderTexto::get().render_texto(get().render, 100, 600, ce->strestado, 100,
                                   50, {255, 0, 255, 255});
+
+  RenderTexto::get().render_texto(get().render, 10, 400,
+                                  "Difultad: " + std::to_string(nivel), 100, 50,
+                                  {255, 0, 255, 255});
 
   // Actualizar
   SDL_RenderPresent(get().render);
@@ -289,11 +312,13 @@ void SDLApp::on_limpiar() {
   SDL_Quit();
 };
 
-int SDLApp::on_correr() {
+int SDLApp::on_correr(int n) {
   // revisar que todo se inicializo bien
   if (get().on_init() == false) {
     return -1;
   }
+
+  get().nivel = n;
 
   SDL_Event eventos;
   double dt = 0;
@@ -329,3 +354,12 @@ int SDLApp::on_correr() {
   get().on_limpiar();
   return 0;
 };
+
+SDLApp::~SDLApp() { get().on_limpiar(); }
+
+void SDLApp::reiniciar() {
+  delete instancia;
+  instancia = nullptr;
+
+  get().on_correr(nivel);
+}

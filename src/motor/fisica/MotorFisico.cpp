@@ -229,7 +229,8 @@ void MotorFisico2D::gravedad(std::vector<ObjetoDinamico *> objs) {
     if (o->get_dtgf() <=
         (20 + ((SDLApp_AUX::get_nivel() - 1) *
                20))) // VELOCIDAD DE CAIDA !! //60=nivel3; 40; nivel2; 20=nivel1
-      o->set_dtgf(o->get_dtgf() + get().gforce);
+      o->set_dtgf(o->get_dtgf() +
+                  ((float)SDLApp_AUX::get_nivel() * 3 + 10) / 100);
     int y = cy + o->get_dtgf();
     o->set_posy(y);
   }

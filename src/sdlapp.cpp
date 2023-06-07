@@ -299,15 +299,15 @@ void SDLApp::on_frameupdate(double dt) {
 
     // get().ensamble->figuras(player->get_col_piso());
     FSMJugador *e = (FSMJugador *)player->get_estado();
-    RenderTexto::get().render_texto(get().render, 600, 600, e->get_namestate(),
-                                    100, 50, {255, 0, 255, 255});
+    /*RenderTexto::get().render_texto(get().render, 600, 600,
+       e->get_namestate(), 100, 50, {255, 0, 255, 255});*/
 
     FSMCamara *ce = (FSMCamara *)ManejadorCamaras::get().get_estado();
-    RenderTexto::get().render_texto(get().render, 100, 600, ce->strestado, 100,
-                                    50, {255, 0, 255, 255});
+    /*RenderTexto::get().render_texto(get().render, 100, 600, ce->strestado,
+       100, 50, {255, 0, 255, 255});*/
 
-    RenderTexto::get().render_texto(get().render, 10, 400,
-                                    "Difultad: " + std::to_string(nivel), 100,
+    RenderTexto::get().render_texto(get().render, 50, 400,
+                                    "Dificultad: " + std::to_string(nivel), 120,
                                     50, {255, 0, 255, 255});
 
     RenderTexto::get().render_texto(get().render, 60, 680,

@@ -56,10 +56,10 @@ private:
   Coordenadas centro;
 };
 
-class BackGroundDinamico : public ObjetoDinamico {
+class BackgroundDinamico : public ObjetoDinamico {
 public:
-  BackGroundDinamico(std::string path_sprite, int w, int h);
-  virtual ~BackGroundDinamico(){};
+  BackgroundDinamico(std::string path_sprite, int w, int h);
+  virtual ~BackgroundDinamico(){};
   void update(double dt);
   void set_estado(void *estado);
   void *get_estado();

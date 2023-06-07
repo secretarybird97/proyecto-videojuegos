@@ -30,7 +30,6 @@ Plataformas::Plataformas(TileInfo tiles, bool colision) {
         new Rectangulo(posicion_mundo.x - 10 - tile->get_sizes().x / 2,
                        posicion_mundo.y - tiles.height / 2, tiles.width + 20, 5,
                        {0, 0, 255, 255});
-    
   }
   tiene_fisica = colision;
   en_colision = false;
@@ -65,11 +64,11 @@ Background::Background(std::string path_sprite, int x, int y, int w, int h)
   velocidad = 2; // modificar variable para cambiar velocidad de fondo
 };
 
-void Background::update(double dt) {
-  // cambiar los valores de la condicion de acuerdo al tamaño del fondo
-  if (posicion_mundo.y >= 2280) {
-    this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
-  } else if (posicion_mundo.y <= -1560) {
-    this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
-  }
+void Background::update(double dt){
+    // cambiar los valores de la condicion de acuerdo al tamaño del fondo
+    /*if (posicion_mundo.y >= 2280) {
+      this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
+    } else if (posicion_mundo.y <= -1560) {
+      this->set_posicion_mundo({get_posx(), (int)(720 / 2)});
+    }*/
 };

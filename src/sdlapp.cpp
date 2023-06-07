@@ -93,15 +93,15 @@ bool SDLApp::on_init() {
   // PlataformasSpawner("assets/sprites/mundo/bg/pared_sprite.png", 1024, 670,
   // 216, 72, 100, 72, {0, 255, 0, 255}, *get().ensamble);
 
-  platspawn = new PlataformasSpawner("assets/sprites/mundo/bg/pared_sprite.png",
-                                     500, 875, 216, 72, 100, 72,
+  platspawn = new PlataformasSpawner("assets/sprites/mundo/bg/platform.png",
+                                     500, 875, 48, 16, 216, 72,
                                      {0, 255, 0, 255}, *get().ensamble);
 
   platspawn->set_velocidad(5);
 
   // 08 tiles
-  mapa = new Atlas("assets/sprites/mundo/ids/mundo_ids.txt");
-  mapa->generar_mapa(get().render, 2, 0);
+  mapa = new Atlas("assets/sprites/mundo/ids/base.txt", {30, 930});
+  mapa->generar_mapa(get().render, 2, 0, SCALE);
   // mapa->generar_mapa(get().render, 2, 0);
   //  05
   player = new Jugador("assets/sprites/heroe/gato_sheet.png",
@@ -111,6 +111,7 @@ bool SDLApp::on_init() {
   get().ensamble->cargar_texturas(player->get_sprite());
 
   player->set_velocidad(nivel * 5);
+  printf("velocidad: %d\n", nivel);
 
   printf("Se creo el player\n");
 
@@ -130,12 +131,14 @@ bool SDLApp::on_init() {
   ManejadorCamaras::get().set_estado(new EstadoCamaraTransicion());
 
   // 09 parallax
-  backgrounds.push_back(new Background("assets/sprites/backgrounds/layer1v.png",
-                                       0, 0, 1080, 3840));
+  backgrounds.push_back(
+      new Background("assets/sprites/backgrounds/layer1v1.png", 0,
+                     (int)(-BG_HEIGHT / 2), BG_WIDTH, BG_HEIGHT));
 
   // ESTRELLAS PEQUEÑAS
-  backgrounds.push_back(new Background("assets/sprites/backgrounds/layer2v.png",
-                                       0, 0, 1080, 3840));
+  backgrounds.push_back(
+      new Background("assets/sprites/backgrounds/layer2v2.png", 0,
+                     (int)(-BG_HEIGHT / 2), BG_WIDTH, BG_HEIGHT));
 
   for (auto bg : backgrounds) {
     get().ensamble->cargar_texturas(bg->get_sprite());
@@ -208,8 +211,7 @@ void SDLApp::on_fisicaupdate(double dt) {
   bool pplat = false;
   for (auto &p : objetos) {
     p->update(dt);
-    /*if(!p->render_colbox && p->get_colbox())
-        p->render_colbox=true;*/
+    p->render_colbox = false;
 
     if (p != player && p->get_colbox()) {
 
@@ -287,6 +289,10 @@ void SDLApp::on_frameupdate(double dt) {
                                   "Difultad: " + std::to_string(nivel), 100, 50,
                                   {255, 0, 255, 255});
 
+  RenderTexto::get().render_texto(get().render, 60, 680,
+                                  "Presione V para cerrar el juego", 200, 30,
+                                  SDL_Color{255, 255, 255, 255});
+
   // Actualizar
   SDL_RenderPresent(get().render);
 
@@ -314,18 +320,18 @@ void SDLApp::on_limpiar() {
 
 int SDLApp::on_correr(int n) {
   // revisar que todo se inicializo bien
+  get().nivel = n;
   if (get().on_init() == false) {
     return -1;
   }
-
-  get().nivel = n;
 
   SDL_Event eventos;
   double dt = 0;
   double frecuencia = 1 / get().maxFPS; // 1 frame a 60fps
   get().msfrecuencia = frecuencia * 1000;
 
-  while (get().estaCorriendo()) {
+  while (get().estaCorriendo() &&
+         !KeyOyente::get().estaPresionado(SDL_SCANCODE_V)) {
     // double start = SDL_GetTicks();
     double inicio = Tiempo::get_tiempo();
 

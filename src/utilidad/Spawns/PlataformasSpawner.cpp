@@ -27,15 +27,20 @@ PlataformasSpawner::PlataformasSpawner(std::string sprite_path, int x, int y,
 
 void PlataformasSpawner::spawn(std::vector<Objeto *> *lista) {
   // random
-  /*srand((unsigned) time(NULL));
-  int sx = x+rand()%100;
-  int sy = y+rand()%200;
-  int nw = sw+rand()%100;
-  int nh = sh+rand()%100;*/
+  // srand((unsigned)time(NULL));
+  /*int sx = x + rand() % 100;
+  int sy = y + rand() % 200;
+  int nw = sw + rand() % 100;
+  int nh = sh + rand() % 100;*/
 
-  // x += (sw * 2);
-  // y -= (sh * 4 - 100);
-  y -= (sh * 4 - (100 / SDLApp_AUX::get_nivel()));
+  int min = 0 + sw;
+  int max = 935 - sw;
+
+  int x = min + (std::rand() % (max - min + 1));
+  // y -= (sh * 4 - (100 / SDLApp_AUX::get_nivel()));
+
+  y -= (sh * (6 - SDLApp_AUX::get_nivel()) -
+        (100 / 6 - SDLApp_AUX::get_nivel()));
 
   PlataformasDinamicas *nuevo = new PlataformasDinamicas(
       sprite_path, x, y, w, h, sw / SDLApp_AUX::get_nivel(),
@@ -53,7 +58,7 @@ void PlataformasSpawner::despawn(std::vector<Objeto *> *lista) {
 
   objetos_activos--;
   std::cout << (objetos_activos) << std::endl;
-  lista->erase(lista->end() - 6);
+  lista->erase(lista->end() - (21 - (SDLApp_AUX::get_nivel() * 5)));
 };
 void PlataformasSpawner::update(std::vector<Objeto *> *lista) {
   double dt = Tiempo::get_tiempo() - init_tiempo;
@@ -61,7 +66,7 @@ void PlataformasSpawner::update(std::vector<Objeto *> *lista) {
   // DEBUGPRINT(dt)
   // DEBUGPRINT(past_tiempo)
   if ((int)dt != 0 && ((int)dt) % delay == 0 && check == false &&
-      objetos_activos < 5) {
+      objetos_activos < (20 - SDLApp_AUX::get_nivel() * 5)) {
 
     spawn(lista);
     past_tiempo = dt;
@@ -70,7 +75,8 @@ void PlataformasSpawner::update(std::vector<Objeto *> *lista) {
     DEBUGCOOR(lista->at(lista->size() - 1)->get_posicion_mundo());
   }
 
-  if ((int)dt != 0 && (int)dt % (delay * 2) == 0 && !check) {
+  if ((int)dt != 0 && (int)dt % (delay * (4 - SDLApp_AUX::get_nivel())) == 0 &&
+      !check) {
     DEBUGPRINT("DESPWAN")
     despawn(lista);
     // check=true;

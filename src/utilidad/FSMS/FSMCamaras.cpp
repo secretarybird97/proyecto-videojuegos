@@ -74,9 +74,8 @@ void EstadoCamaraMoverDer::on_update(Camara &cam) {
   FSMJugador *estado = (FSMJugador *)obj->get_estado();
   if (estado->get_namestate() != "BRINCAR") {
     // pos.x += obj->get_velocidad();
-    //obpos.x += obj->get_velocidad();
-    if(obpos.x < 935)
-    {
+    // obpos.x += obj->get_velocidad();
+    if (obpos.x < 935) {
       obpos.x += obj->get_velocidad();
     }
   }
@@ -87,7 +86,7 @@ void EstadoCamaraMoverDer::on_update(Camara &cam) {
     po.x -= o->get_velocidad();
     o->set_posicion_mundo(po);
   }*/
-  
+
   // cam.set_posicion_mundo(pos);//mover la cámara con jugador
   obj->set_posicion_mundo(obpos);
 };
@@ -127,9 +126,8 @@ void EstadoCamaraMoverIzq::on_update(Camara &cam) {
   FSMJugador *e = (FSMJugador *)obj->get_estado();
   if (e->get_namestate() != "BRINCAR") {
     // pos.x  -= obj->get_velocidad();
-    //obpos.x -= obj->get_velocidad();
-    if(obpos.x > 0)
-    {
+    // obpos.x -= obj->get_velocidad();
+    if (obpos.x > 0) {
       obpos.x -= obj->get_velocidad();
     }
   }
@@ -144,7 +142,6 @@ void EstadoCamaraMoverIzq::on_update(Camara &cam) {
 
   // cam.set_posicion_mundo(pos); //mover la cámara con jugador
   obj->set_posicion_mundo(obpos);
-  
 };
 
 /*
@@ -213,7 +210,7 @@ void EstadoCamaraTransicion::on_update(Camara &cam) {
   check = LERP(pos_inicial, pos_final, t);
   cam.set_posicion_mundo(check);
   frames_actual++;
-  //DEBUGCOOR(cam.get_posicion_mundo())
+  // DEBUGCOOR(cam.get_posicion_mundo())
 };
 /*
 LOCK
@@ -252,7 +249,7 @@ void EstadoCamaraLock::on_update(Camara &cam) {
   DEBUGLINEA(pos_mundo, obj->get_posicion_mundo())*/
 
   Coordenadas pos_mundo = obj->get_posicion_mundo();
-  //pos_mundo.x -= centro.x;
+  // pos_mundo.x -= centro.x;
   pos_mundo.y -= centro.y;
-  //cam.set_posicion_mundo(pos_mundo);
+  // cam.set_posicion_mundo(pos_mundo);
 };

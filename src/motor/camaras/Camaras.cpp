@@ -6,7 +6,7 @@
 Camara::Camara(int x, int y, int w, int h, SDL_Renderer &view) {
   // se considera que la camara empieza en 0,0 y es toda la pantalla
   // si se quiere centrar hay que desplazar w y h en todos los cálculos.
-  escala = {450, 200}; //{200,100};
+  escala = {450, 200};    //{200,100};
   offset_vertical = -190; //-190
 
   width = w;

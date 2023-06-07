@@ -113,16 +113,16 @@ void Jugador::input_handle(KeyOyente &input, MouseOyente &mouse) {
 ---
 */
 
-BackGroundDinamico::BackGroundDinamico(std::string path_sprite, int w, int h) {
-  posicion_mundo.x = -w / 2;
-  posicion_mundo.y = 0;
+BackgroundDinamico::BackgroundDinamico(std::string path_sprite, int w, int h) {
+  posicion_mundo.x = 0;
+  posicion_mundo.y = -h / 2;
   posicion_camara = posicion_mundo;
   avatar = nullptr;
   tile = nullptr;
   col_box = nullptr;
   // toda la imagen sprite?
   limites.x = w;
-  limites.y = 0;
+  limites.y = h;
   sprite = new Sprite(path_sprite, posicion_mundo, w, h, w, h);
   tiene_fisica = false;
   en_colision = false;
@@ -132,13 +132,13 @@ BackGroundDinamico::BackGroundDinamico(std::string path_sprite, int w, int h) {
   // crear la camara antes del background
   centro_cam = ManejadorCamaras::get_camara().get_posicion_centro();
 };
-void BackGroundDinamico::set_estado(void *estado){};
-void *BackGroundDinamico::get_estado() { return NULL; }
-void BackGroundDinamico::update(double dt) {
+void BackgroundDinamico::set_estado(void *estado){};
+void *BackgroundDinamico::get_estado() { return NULL; }
+void BackgroundDinamico::update(double dt) {
   // parallax/scroller reset
   float dist = std::sqrt(std::pow(posicion_mundo.x - limites.x / 2, 2) +
                          std::pow(posicion_mundo.y - limites.y, 2));
-  // DEBUGPRINT(dist)
+  DEBUGPRINT(dist)
   if (dist < (limites.x / 2) + centro_cam.x - velocidad) // izquierda
   {
     // reset
@@ -147,6 +147,14 @@ void BackGroundDinamico::update(double dt) {
   {
     // reset
     posicion_mundo.x = -(limites.x / 2) + centro_cam.x + velocidad;
+  } else if (posicion_mundo.y > centro_cam.y + limites.y + velocidad) // abajo
+  {
+    // reset
+    posicion_mundo.y = -(limites.y / 2) - centro_cam.y - velocidad;
+  } else if (posicion_mundo.y < centro_cam.y - limites.y - velocidad) // arriba
+  {
+    // reset
+    posicion_mundo.y = -(limites.y / 2) + centro_cam.y + velocidad;
   }
 };
 

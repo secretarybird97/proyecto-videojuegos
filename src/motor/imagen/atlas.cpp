@@ -2,7 +2,10 @@
 #include <fstream>
 #include <iostream>
 
-Atlas::Atlas(std::string atlas) { info.archivo_ids = atlas; };
+Atlas::Atlas(std::string atlas, Coordenadas offset) {
+  info.archivo_ids = atlas;
+  pos = offset;
+};
 
 Atlas::~Atlas() { info.mapa_ids.clear(); };
 
@@ -14,7 +17,8 @@ bool Atlas::cargar_textura(SDL_Renderer *r) {
   }
   return true;
 };
-void Atlas::generar_mapa(SDL_Renderer *r, int idflip, int notidobjfisicos) {
+void Atlas::generar_mapa(SDL_Renderer *r, int idflip, int notidobjfisicos,
+                         int scale) {
   std::ifstream archivo;
   archivo.open(info.archivo_ids.c_str());
   if (!archivo.is_open()) {
@@ -45,6 +49,7 @@ void Atlas::generar_mapa(SDL_Renderer *r, int idflip, int notidobjfisicos) {
   archivo >> info.atlas_width >> info.atlas_height;
   printf("Atlas width=%d\nAtlas height=%d\n", info.atlas_width,
          info.atlas_height);
+
   // inicializar la matriz
   // inicializar la matriz de ids en 0;
   for (int i = 0; i < columna; ++i) {
@@ -68,20 +73,21 @@ void Atlas::generar_mapa(SDL_Renderer *r, int idflip, int notidobjfisicos) {
            (info.mapa_ids[i][j] / info.num_tiles_ancho) * info.tile_height,
            info.tile_width, info.tile_height}, // srcRect
           {j * info.tile_width, i * info.tile_height, info.tile_width,
-           info.tile_height},                          // dstRect
-          atlas_sheet,                                 // source
-          {j * info.tile_width, i * info.tile_height}, // pos
-          info.tile_width,                             // width
-          info.tile_height                             // height
+           info.tile_height}, // dstRect
+          atlas_sheet,        // source
+          {j * info.tile_width * scale + pos.x,
+           i * info.tile_height * scale + pos.y}, // pos
+          info.tile_width * scale,                // width
+          info.tile_height * scale                // height
       };
       // objetos_fisicos.push_back(new
       // Plataformas(j*t_width,i*t_height,t_width,t_height,{0,0,0,255}));
       bool tiene_colision =
-          (info.mapa_ids[i][j] == 1)
+          (info.mapa_ids[i][j] == 1 || info.mapa_ids[i][j] == 0 ||
+           info.mapa_ids[i][j] == 2)
               ? true
-              : false; //(info.mapa_ids[i][j]==notidobjfisicos) ? false : true;
-      if (info.mapa_ids[i][j] != -1)
-        objetos_fisicos.push_back(new Plataformas(tile, tiene_colision));
+              : false;
+      objetos_fisicos.push_back(new Plataformas(tile, tiene_colision));
     }
     printf("]\n");
   }

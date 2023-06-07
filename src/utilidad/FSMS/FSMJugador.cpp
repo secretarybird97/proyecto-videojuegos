@@ -342,7 +342,7 @@ FSMJugador *EstadoJugadorGravedadBrinco::input_handle(
     } // nivel 1 = 11; nivel 2 = 7; nivel 3 = 5
   if (input.estaPresionado(SDL_SCANCODE_A))
     if (P1.x > 0) {
-      P1.x -= 7;
+      P1.x -= (5 + (pow(SDLApp_AUX::get_nivel(), 2) - SDLApp_AUX::get_nivel()));
     }
 
   return NULL;

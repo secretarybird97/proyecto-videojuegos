@@ -337,6 +337,8 @@ void SDLApp::on_limpiar() {
   delete ensamble;
   // delete player;
   delete platspawn;
+  IMG_Quit();
+  TTF_Quit();
   SDL_Quit();
 };
 
@@ -391,7 +393,7 @@ int SDLApp::on_correr(int n) {
   }
   // liberamos memoria
   get().on_limpiar();
-  return 0;
+  exit(0);
 };
 
 SDLApp::~SDLApp() { get().on_limpiar(); }

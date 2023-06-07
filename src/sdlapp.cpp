@@ -141,12 +141,12 @@ bool SDLApp::on_init() {
   // 09 parallax
   backgrounds.push_back(
       new Background("assets/sprites/backgrounds/layer1v1.png", 0,
-                     (int)(-BG_HEIGHT / 2), BG_WIDTH, BG_HEIGHT));
+                     (int)(-BG_HEIGHT) + 1200, BG_WIDTH, BG_HEIGHT));
 
   // ESTRELLAS PEQUEÑAS
   backgrounds.push_back(
       new Background("assets/sprites/backgrounds/layer2v2.png", 0,
-                     (int)(-BG_HEIGHT / 2), BG_WIDTH, BG_HEIGHT));
+                     (int)(-BG_HEIGHT) + 1200, BG_WIDTH, BG_HEIGHT));
 
   for (auto bg : backgrounds) {
     get().ensamble->cargar_texturas(bg->get_sprite());

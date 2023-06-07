@@ -33,10 +33,18 @@ void PlataformasSpawner::spawn(std::vector<Objeto *> *lista) {
   int sy = y+rand()%200;
   int nw = sw+rand()%100;
   int nh = sh+rand()%100;*/
-  int nivel = 3; //nivel 1= facil; nivel 2= medio; nivel 3= dificil (lo hace más pequeño)
-  // x += (sw * 2);
+
+  int min = 0 + sw;
+  int max = 935 - sw;
+
+  // Genera un número aleatorio dentro del rango
+  int numero_aleatorio = min + (std::rand() % (max - min + 1));
+  
+   x = numero_aleatorio;
   //y -= (sh * 4 - 100);
-  y -= (sh * 4 - (100 / nivel));
+
+  int nivel = 3; //nivel 1= facil; nivel 2= medio; nivel 3= dificil (lo hace más pequeño)
+  y -= (sh * (6-nivel) - (100 / 6-nivel));
   
   PlataformasDinamicas *nuevo =
       new PlataformasDinamicas(sprite_path, x, y, w, h, sw/nivel, sh/nivel, colordebug);
@@ -53,15 +61,17 @@ void PlataformasSpawner::despawn(std::vector<Objeto *> *lista) {
 
   objetos_activos--;
   std::cout << (objetos_activos) << std::endl;
-  lista->erase(lista->end() - 6);
+  int nivel = 1;
+  lista->erase(lista->end() - (21-(nivel*5)));
 };
 void PlataformasSpawner::update(std::vector<Objeto *> *lista) {
   double dt = Tiempo::get_tiempo() - init_tiempo;
-
+  int nivel = 1;
   // DEBUGPRINT(dt)
   // DEBUGPRINT(past_tiempo)
   if ((int)dt != 0 && ((int)dt) % delay == 0 && check == false &&
-      objetos_activos < 5) {
+      objetos_activos < (20-(nivel*5))) //nivel 1 = 15; nivel 2 = 10; nivel 3 = 5
+    {
 
     spawn(lista);
     past_tiempo = dt;
@@ -70,7 +80,7 @@ void PlataformasSpawner::update(std::vector<Objeto *> *lista) {
     DEBUGCOOR(lista->at(lista->size() - 1)->get_posicion_mundo());
   }
 
-  if ((int)dt != 0 && (int)dt % (delay * 2) == 0 && !check) {
+  if ((int)dt != 0 && (int)dt % (delay * (4-nivel)) == 0 && !check) {
     DEBUGPRINT("DESPWAN")
     despawn(lista);
     // check=true;

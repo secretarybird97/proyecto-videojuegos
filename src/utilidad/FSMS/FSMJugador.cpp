@@ -334,7 +334,7 @@ FSMJugador *EstadoJugadorGravedadBrinco::input_handle(KeyOyente &input,
                                                       MouseOyente &mouse) { /////////////////////    NIVEL
   if (!en_aire)
     return new EstadoJugadorIDLE();
-  int nivel 1;
+  int nivel = 3;
   if (input.estaPresionado(SDL_SCANCODE_D))
     if(P1.x<935){P1.x += (5 + (pow(nivel,2) - nivel));} // nivel 1 = 11; nivel 2 = 7; nivel 3 = 5
   if (input.estaPresionado(SDL_SCANCODE_A))

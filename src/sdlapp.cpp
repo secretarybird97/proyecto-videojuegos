@@ -110,7 +110,7 @@ bool SDLApp::on_init() {
                        100, (int)(get().WIDTH / 2), (int)(get().HEIGHT), 500,
                        520, 100, 100, {255, 0, 255, 255});
   get().ensamble->cargar_texturas(player->get_sprite());
-  int nivel = 3;
+  int nivel = 1;
   player->set_velocidad(nivel*5);
   
   printf("Se creo el player\n");

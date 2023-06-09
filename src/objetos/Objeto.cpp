@@ -14,15 +14,15 @@ void Objeto::render(SDL_Renderer *r) {
     temp.pintar_texturas(sprite);
   }
 
-  if (render_colbox) {
+  /*if (render_colbox) {
     // printf("[%p] pintar col_box\n",this);
     temp.figuras(col_box);
   }
 
   if (area_plataforma) {
-    // printf("[%p] pintar area_plataforma\n",this);
+    // printf("[%p] pintar col_box\n", this);
     temp.figuras(area_plataforma);
-  }
+  }*/
 };
 
 void Objeto::set_posicion_camara(Coordenadas p) {
